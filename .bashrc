@@ -40,6 +40,7 @@ export PYENV_ROOT="$HOME/.pyenv"
 eval "$(pyenv init - bash)"
 
 export RUST_RCLOUD_CONFIG="/etc/rust-rcloud/config.json"
+export SUDO_EDITOR="nvim"
 
 # proto
 export PROTO_HOME="$HOME/.proto";

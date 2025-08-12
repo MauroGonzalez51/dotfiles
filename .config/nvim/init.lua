@@ -1,2 +1,2 @@
-require("arch.core")
-require("arch.lazy")
+-- bootstrap lazy.nvim, LazyVim and your plugins
+require("config.lazy")
