@@ -29,7 +29,10 @@ return {
       "c",
       "diff",
       "html",
+      "css",
       "javascript",
+      "typescript",
+      "vue",
       "jsdoc",
       "json",
       "jsonc",
@@ -48,7 +51,7 @@ return {
       "vim",
       "vimdoc",
       "xml",
-      "yaml",
+      "yaml"
     },
     incremental_selection = {
       enable = true,

@@ -19,31 +19,32 @@ eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 eval "$(oh-my-posh init bash --config $POSH_THEMES_PATH/tokyonight_storm.omp.json)"
 
 if command -v pyenv 1>/dev/null 2>&1; then
-   eval "$(pyenv init - bash)" 
+  eval "$(pyenv init - bash)"
 fi
 
 source /usr/share/nvm/init-nvm.sh
 
 # Yazi setup
 function y() {
-	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-	yazi "$@" --cwd-file="$tmp"
-	if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-		builtin cd -- "$cwd"
-	fi
-	rm -f -- "$tmp"
+  local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+  yazi "$@" --cwd-file="$tmp"
+  if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+    builtin cd -- "$cwd"
+  fi
+  rm -f -- "$tmp"
 }
+
+# rust-rcloud
+export RUST_RCLOUD_CONFIG="/etc/rust-rcloud/config.json"
+export SUDO_EDITOR="nvim"
 
 # pyenv setup
 export PYENV_ROOT="$HOME/.pyenv"
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init - bash)"
 
-export RUST_RCLOUD_CONFIG="/etc/rust-rcloud/config.json"
-export SUDO_EDITOR="nvim"
-
 # proto
-export PROTO_HOME="$HOME/.proto";
-export PATH="$PROTO_HOME/shims:$PROTO_HOME/bin:$PATH";
+export PROTO_HOME="$HOME/.proto"
+export PATH="$PATH:$PROTO_HOME/bin:$PROTO_HOME/shims"
 
 neofetch --config $HOME/.config/neofetch/config.conf
