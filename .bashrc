@@ -47,4 +47,8 @@ eval "$(pyenv init - bash)"
 export PROTO_HOME="$HOME/.proto"
 export PATH="$PATH:$PROTO_HOME/bin:$PROTO_HOME/shims"
 
+# moon-completions
+source ~/.bash/moon-completion.sh
+
 neofetch --config $HOME/.config/neofetch/config.conf
+
