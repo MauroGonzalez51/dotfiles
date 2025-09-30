@@ -49,6 +49,10 @@ export PATH="$PATH:$PROTO_HOME/bin:$PROTO_HOME/shims"
 
 # moon-completions
 source ~/.bash/moon-completion.sh
+source ~/.bash/ruff-completion.sh
+
+# docker buildkit
+export DOCKER_BUILDKIT=1
 
 neofetch --config $HOME/.config/neofetch/config.conf
 
