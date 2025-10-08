@@ -5,10 +5,6 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-alias ls='ls --color=auto'
-alias grep='grep --color=auto'
-PS1='[\u@\h \W]\$ '
-
 export EDITOR="code"
 
 export POSH_THEMES_PATH=/usr/share/oh-my-posh/themes/
@@ -50,6 +46,9 @@ export PATH="$PATH:$PROTO_HOME/bin:$PROTO_HOME/shims"
 # moon-completions
 source ~/.bash/moon-completion.sh
 source ~/.bash/ruff-completion.sh
+
+source ~/.bash/alias.sh
+eval "$(zoxide init bash)"
 
 # docker buildkit
 export DOCKER_BUILDKIT=1
