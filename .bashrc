@@ -1,57 +1,20 @@
-#
-# ~/.bashrc
-#
-
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-export EDITOR="code"
+source ~/.bash/apps/internal.sh
 
-export POSH_THEMES_PATH=/usr/share/oh-my-posh/themes/
+source ~/.bash/apps/oh-my-posh.sh
+source ~/.bash/apps/homebrew.sh
+source ~/.bash/apps/nvm.sh
+source ~/.bash/apps/yazi.sh
+source ~/.bash/apps/pyenv.sh
+source ~/.bash/apps/proto.sh
 
-# Adding homebrew to $PATH
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-
-eval "$(oh-my-posh init bash --config $POSH_THEMES_PATH/tokyonight_storm.omp.json)"
-
-if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init - bash)"
-fi
-
-source /usr/share/nvm/init-nvm.sh
-
-# Yazi setup
-function y() {
-  local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-  yazi "$@" --cwd-file="$tmp"
-  if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-    builtin cd -- "$cwd"
-  fi
-  rm -f -- "$tmp"
-}
-
-# rust-rcloud
-export RUST_RCLOUD_CONFIG="/etc/rust-rcloud/config.json"
-export SUDO_EDITOR="nvim"
-
-# pyenv setup
-export PYENV_ROOT="$HOME/.pyenv"
-[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init - bash)"
-
-# proto
-export PROTO_HOME="$HOME/.proto"
-export PATH="$PATH:$PROTO_HOME/bin:$PROTO_HOME/shims"
-
-# moon-completions
-source ~/.bash/moon-completion.sh
-source ~/.bash/ruff-completion.sh
+source ~/.bash/completions/moon-completion.sh
+source ~/.bash/completions/ruff-completion.sh
 
 source ~/.bash/alias.sh
-eval "$(zoxide init bash)"
-
-# docker buildkit
-export DOCKER_BUILDKIT=1
 
 neofetch --config $HOME/.config/neofetch/config.conf
 
+source ~/.bash/apps/zoxide.sh
