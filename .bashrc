@@ -16,4 +16,6 @@ source ~/.bash/completions/ruff-completion.sh
 source ~/.bash/alias.sh
 source ~/.bash/path.sh
 
+fastfetch --config ~/.config/fastfetch/config.jsonc
+
 source ~/.bash/apps/zoxide.sh
