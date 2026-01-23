@@ -16,6 +16,4 @@ source ~/.bash/completions/ruff-completion.sh
 source ~/.bash/alias.sh
 source ~/.bash/path.sh
 
-neofetch --config $HOME/.config/neofetch/config.conf
-
 source ~/.bash/apps/zoxide.sh
