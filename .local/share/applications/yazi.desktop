@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Yazi
+Comment=Terminal File Manager
+Exec=xdg-open "warp://launch/Yazi"
+Icon=yazi
+Type=Application
+Categories=Utility;FileManager;
+Terminal=false;
+StartupNotify=true;
