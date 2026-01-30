@@ -1,21 +1,26 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-source ~/.bash/apps/env.sh
+source ~/.bash/apps/ble.manual.sh
 
-source ~/.bash/apps/oh-my-posh.sh
-source ~/.bash/apps/homebrew.sh
-source ~/.bash/apps/nvm.sh
-source ~/.bash/apps/yazi.sh
-source ~/.bash/apps/pyenv.sh
-source ~/.bash/apps/proto.sh
+for app in ~/.bash/apps/*.app.sh; do
+    [ -f "$app" ] && source "$app"
+done
 
-source ~/.bash/completions/moon-completion.sh
-source ~/.bash/completions/ruff-completion.sh
+if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+
+    for completion in ~/.bash/completions/*.sh; do
+        [ -f "$completion" ] && source "$completion"
+    done
+fi
 
 source ~/.bash/alias.sh
+source ~/.bash/env.sh
 source ~/.bash/path.sh
 
 fastfetch --config ~/.config/fastfetch/config.jsonc
 
-source ~/.bash/apps/zoxide.sh
+source ~/.bash/apps/zoxide.manual.sh
+
+[[ ${BLE_VERSION-} ]] && ble-attach
