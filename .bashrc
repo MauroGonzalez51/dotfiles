@@ -19,7 +19,9 @@ source ~/.bash/alias.sh
 source ~/.bash/env.sh
 source ~/.bash/path.sh
 
-fastfetch --config ~/.config/fastfetch/config.jsonc
+if command -v fastfetch >/dev/null 2>&1; then
+    fastfetch --config ~/.config/fastfetch/config.jsonc
+fi
 
 source ~/.bash/apps/zoxide.manual.sh
 
