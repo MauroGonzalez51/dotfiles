@@ -33,3 +33,5 @@ code_actions.setup({
     filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
   },
 })
+
+lvim.transparent_window = true
