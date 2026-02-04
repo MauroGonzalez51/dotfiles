@@ -19,7 +19,7 @@ source ~/.bash/alias.sh
 source ~/.bash/env.sh
 source ~/.bash/path.sh
 
-if command -v fastfetch >/dev/null 2>&1; then
+if command -v fastfetch >/dev/null 2>&1 && [ -z "$TMUX" ]; then
     fastfetch --config ~/.config/fastfetch/config.jsonc
 fi
 
