@@ -44,21 +44,18 @@ check_contrast = true
 #no_hooks = true
 
 [templates]
-# NOTE: prefer '' over "" for paths, avoids escaping.
-# template: A RELATIVE path that points to `~/.config/wallust/template` (depends on platform)
-# target: ABSOLUTE path in which to place a file with generated templated values.
-# ¡ If either one is a directory, then both SHOULD be one. !
-# zathura = { template = 'zathura', target = '~/.config/zathura/zathurarc' }
-
 hypr.template = 'colors-hypr.conf'
 hypr.target = '~/.config/hypr/themes/wallust.conf'
 
 fastfetch.template = 'colors-fastfetch.jsonc'
 fastfetch.target = '~/.config/fastfetch/config.jsonc'
 
-kitty.template = "colors-kitty.conf"
-kitty.target = "~/.config/kitty/colors.conf"
+kitty.template = 'colors-kitty.conf'
+kitty.target = '~/.config/kitty/colors.conf'
+
+swaync.template = 'swaync.css'
+swaync.target = '~/.config/swaync/style.css'
 
 [hooks]
-wallpaper = """swww img "$(find ~/Pictures -iregex '.*.\\(jpg\\|jpeg\\|png\\|gif\\)' -type f | shuf -n 1)" """
 hypr-reload = 'hyprctl reload'
+swaync-reload = 'swaync-client --reload-config --reload-css'

@@ -20,56 +20,56 @@
         {
             "type": "title",
             "keyWidth": 10,
-            "keyColor": "#{{color4 | strip}}"
+            "keyColor": "{{ color4 }}"
         },
         "break",
         {
             "type": "os",
             "key": "\udb82\udcc7 ",
-            "keyColor": "#{{color4 | strip}}"
+            "keyColor": "{{ color4 }}"
         },
         {
             "type": "kernel",
             "key": "\ueb51 ",
-            "keyColor": "#{{color4 | strip}}"
+            "keyColor": "{{ color4 }}"
         },
         {
             "type": "cpu",
             "key": "\uf4bc ",
-            "keyColor": "#{{color4 | strip}}",
+            "keyColor": "{{ color4 }}",
             "format": "{}"
         },
         {
             "type": "gpu",
             "key": "\udb83\ude37 ",
-            "keyColor": "#{{color4 | strip}}",
+            "keyColor": "{{ color4 }}",
             "format": "{} ({})"
         },
         {
             "type": "packages",
             "key": "\ueb29 ",
-            "keyColor": "#{{color4 | strip}}",
+            "keyColor": "{{ color4 }}",
             "format": "{} (pacman)"
         },
         {
             "type": "shell",
             "key": "\uf120 ",
-            "keyColor": "#{{color4 | strip}}"
+            "keyColor": "{{ color4 }}"
         },
         {
             "type": "wm",
             "key": "\udb81\udce9 ",
-            "keyColor": "#{{color4 | strip}}"
+            "keyColor": "{{ color4 }}"
         },
         {
             "type": "uptime",
             "key": "\ue641 ",
-            "keyColor": "#{{color4 | strip}}"
+            "keyColor": "{{ color4 }}"
         },
         {
             "type": "media",
             "key": "\uec1b ",
-            "keyColor": "#{{color4 | strip}}"
+            "keyColor": "{{ color4 }}"
         },
         "break"
     ]
