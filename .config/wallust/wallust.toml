@@ -53,7 +53,12 @@ check_contrast = true
 hypr.template = 'colors-hypr.conf'
 hypr.target = '~/.config/hypr/themes/wallust.conf'
 
+fastfetch.template = 'colors-fastfetch.jsonc'
+fastfetch.target = '~/.config/fastfetch/config.jsonc'
+
+kitty.template = "colors-kitty.conf"
+kitty.target = "~/.config/kitty/colors.conf"
+
 [hooks]
-# Run commands when wallust is invoked. Useful to avoid scripting.
-#wallpaper = """swww img "$(find ~/Media/Pictures/Wallpapers -iregex '.*.\\(jpg\\|jpeg\\|png\\|gif\\)' -type f | shuf -n 1)" """
-reload = "hyprctl reload"
+wallpaper = """swww img "$(find ~/Pictures -iregex '.*.\\(jpg\\|jpeg\\|png\\|gif\\)' -type f | shuf -n 1)" """
+hypr-reload = 'hyprctl reload'
