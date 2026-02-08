@@ -1,0 +1,49 @@
+#window {
+  background-color: rgba({{ background | rgb }}, 0.6);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  border-radius: 1rem;
+  font-size: 1.2rem;
+  font-family: "JetBrains Mono Nerd Font Mono", monospace;
+}
+
+#window #outer-box {}
+
+#window #outer-box #input {
+  background-color: rgba({{ background | rgb }}, 0.6);
+  color: {{ foreground }};
+  border: none;
+  border-bottom: 1px solid rgba({{ background | rgb }}, 0.2);
+  padding: 0.8rem 1rem;
+  font-size: 1.5rem;
+  border-radius: 1rem 1rem 0 0;
+}
+
+#window #outer-box #input:focus,
+#window #outer-box #input:focus-visible,
+#window #outer-box #input:active {
+  border: none;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+#window #outer-box #scroll {}
+
+#window #outer-box #scroll #inner-box {}
+
+#window #outer-box #scroll #inner-box #entry {
+  color: {{ foreground }};
+  background-color: rgba({{ background | rgb }}, 0.1);
+  padding: 0.6rem 1rem;
+}
+
+#window #outer-box #scroll #inner-box #entry #img {
+  width: 1rem;
+  margin-right: 0.5rem;
+}
+
+#window #outer-box #scroll #inner-box #entry:selected {
+  color: {{ foreground }};
+  background-color: rgba({{ foreground | rgb }}, 0.1);
+  outline: none;
+}
