@@ -1,5 +1,5 @@
 #window {
-  background-color: rgba(33,32,29, 0.8);
+  background-color: rgba(25,0,0, 0.8);
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
     0 4px 6px -4px rgba(0, 0, 0, 0.1);
   border-radius: 1rem;
@@ -10,10 +10,10 @@
 #window #outer-box {}
 
 #window #outer-box #input {
-  background-color: rgba(33,32,29, 0.6);
-  color: #BAC0C1;
+  background-color: rgba(25,0,0, 0.6);
+  color: #C0C4C3;
   border: none;
-  border-bottom: 1px solid rgba(33,32,29, 0.2);
+  border-bottom: 1px solid rgba(25,0,0, 0.2);
   padding: 0.8rem 1rem;
   font-size: 1.5rem;
   border-radius: 1rem 1rem 0 0;
@@ -26,11 +26,11 @@
 #window #outer-box #input:focus-visible,
 #window #outer-box #input:active {
   border: none;
-  border-bottom: 1px solid rgba(33,32,29, 0.2);
+  border-bottom: 1px solid rgba(25,0,0, 0.2);
   outline: none;
   box-shadow: none;
   -gtk-outline: none;
-  background-color: rgba(33,32,29, 0.6);
+  background-color: rgba(25,0,0, 0.6);
 }
 
 #window #outer-box #scroll {}
@@ -38,8 +38,8 @@
 #window #outer-box #scroll #inner-box {}
 
 #window #outer-box #scroll #inner-box #entry {
-  color: #BAC0C1;
-  background-color: rgba(33,32,29, 0.1);
+  color: #C0C4C3;
+  background-color: rgba(25,0,0, 0.1);
   padding: 0.6rem 1rem;
 }
 
@@ -49,7 +49,7 @@
 }
 
 #window #outer-box #scroll #inner-box #entry:selected {
-  color: #BAC0C1;
-  background-color: rgba(186,192,193, 0.1);
+  color: #C0C4C3;
+  background-color: rgba(192,196,195, 0.1);
   outline: none;
 }

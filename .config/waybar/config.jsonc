@@ -10,7 +10,8 @@
         "idle_inhibitor",
         "pulseaudio",
         "battery",
-        "clock"
+        "clock",
+        "custom/power"
     ],
     "hyprland/workspaces": {
         "format": "{icon}",
@@ -134,5 +135,10 @@
         "interval": 1,
         "format": "{:%I:%M %p}",
         "format-alt": "\uf133 {:%a,%b %d}"
+    },
+
+    "custom/power": {
+        "format": "\u23fc",
+        "on-click": "~/.local/bin/power-menu.py"
     }
 }
