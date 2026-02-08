@@ -1,0 +1,138 @@
+{
+    "position": "top",
+    "height": 32,
+    "margin": "4, 8, 2, 8",
+    "modules-left": ["hyprland/workspaces", "cpu", "memory", "network", "disk"],
+    "modules-center": ["mpris"],
+    "modules-right": [
+        "tray",
+        "backlight",
+        "idle_inhibitor",
+        "pulseaudio",
+        "battery",
+        "clock"
+    ],
+    "hyprland/workspaces": {
+        "format": "{icon}",
+        "format-icons": {
+            "urgent": "\udb86\udd78",
+            "active": "\uf444",
+            "default": "\uf192"
+        },
+        "persistent-workspaces": {
+            "*": "5"
+        }
+    },
+    "cpu": {
+        "interval": 10,
+        "format": "\uf4bc {usage}%",
+        "max-length": 10,
+        "on-click": "kitty -e 'btop'"
+    },
+
+    "memory": {
+        "interval": 30,
+        "format": "\ueb6a {percentage}%",
+        "max-length": 10,
+        "warning": 70,
+        "critical": 90
+    },
+
+    "network": {
+        "format": "{icon}",
+        "format-alt": "\uf40a {bandwidthUpBytes} \uf409 {bandwidthDownBytes} {icon}",
+        "format-alt-click": "click-right",
+        "format-wifi": "{icon} ({signalStrength}%)",
+        "format-icons": {
+            "wifi": ["\udb82\udcbc", "\udb82\udcbd", "\udb82\udcbe"],
+            "ethernet": ["\uef44"],
+            "disconnected": ["\udb81\udf83"]
+        }
+    },
+
+    "disk": {
+        "format": "\uf0c7 {percentage_used}%"
+    },
+
+    "mpris": {
+        "format": "{status_icon} {artist} - {title}",
+        "status-icons": {
+            "playing": "\uf04b",
+            "paused": "\uf04c",
+            "stopped": "\uf04d"
+        },
+        "tooltip-format": "{player}: {title}"
+    },
+
+    "tray": {
+        "icon-size": 15
+    },
+
+    "backlight": {
+        "format": "{icon} {percent}%",
+        "format-icons": [
+            "\udb80\udcda",
+            "\udb80\udcdb",
+            "\udb80\udcdc",
+            "\udb80\udcdd",
+            "\udb80\udcde",
+            "\udb80\udcdf"
+        ],
+        "on-scroll-down": "swayosd-client --brightness -1",
+        "on-scroll-up": "swayosd-client --brightness +1"
+    },
+
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "\uf06e",
+            "deactivated": "\uf070"
+        }
+    },
+
+    "pulseaudio": {
+        "format": "{icon} {volume}% {format_source}",
+        "format-bluetooth": "{icon}\udb80\udcaf {volume}% {format_source}",
+        "format-bluetooth-muted": "\udb80\udf6c {format_source}",
+        "format-muted": "\ueee8  {format_source}",
+        "format-source": "\udb80\udf6c {volume}%",
+        "format-source-muted": "\udb80\udf6d",
+        "format-icons": {
+            "headphone": "\uf025",
+            "headset": "\udb80\udece",
+            "phone": "\uf10b",
+            "car": "\uf1b9",
+            "default": ["\uf028", "\uf027"]
+        },
+        "on-click": "pavucontrol"
+    },
+
+    "battery": {
+        "states": {
+            "good": 95,
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{icon} {capacity}%",
+        "format-charging": "\udb80\udc84 {capacity}%",
+        "format-plugged": "\udb81\udea5  {capacity}%",
+        "format-icons": [
+            "\udb80\udc7a",
+            "\udb80\udc7b",
+            "\udb80\udc7c",
+            "\udb80\udc7d",
+            "\udb80\udc7e",
+            "\udb80\udc7f",
+            "\udb80\udc80",
+            "\udb80\udc81",
+            "\udb80\udc82",
+            "\udb80\udc79"
+        ]
+    },
+
+    "clock": {
+        "interval": 1,
+        "format": "{:%I:%M %p}",
+        "format-alt": "\uf133 {:%a,%b %d}"
+    }
+}

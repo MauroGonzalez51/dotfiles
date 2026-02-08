@@ -20,56 +20,56 @@
         {
             "type": "title",
             "keyWidth": 10,
-            "keyColor": "#C35A64"
+            "keyColor": "#928975"
         },
         "break",
         {
             "type": "os",
             "key": "\udb82\udcc7 ",
-            "keyColor": "#C35A64"
+            "keyColor": "#928975"
         },
         {
             "type": "kernel",
             "key": "\ueb51 ",
-            "keyColor": "#C35A64"
+            "keyColor": "#928975"
         },
         {
             "type": "cpu",
             "key": "\uf4bc ",
-            "keyColor": "#C35A64",
+            "keyColor": "#928975",
             "format": "{}"
         },
         {
             "type": "gpu",
             "key": "\udb83\ude37 ",
-            "keyColor": "#C35A64",
+            "keyColor": "#928975",
             "format": "{} ({})"
         },
         {
             "type": "packages",
             "key": "\ueb29 ",
-            "keyColor": "#C35A64",
+            "keyColor": "#928975",
             "format": "{} (pacman)"
         },
         {
             "type": "shell",
             "key": "\uf120 ",
-            "keyColor": "#C35A64"
+            "keyColor": "#928975"
         },
         {
             "type": "wm",
             "key": "\udb81\udce9 ",
-            "keyColor": "#C35A64"
+            "keyColor": "#928975"
         },
         {
             "type": "uptime",
             "key": "\ue641 ",
-            "keyColor": "#C35A64"
+            "keyColor": "#928975"
         },
         {
             "type": "media",
             "key": "\uec1b ",
-            "keyColor": "#C35A64"
+            "keyColor": "#928975"
         },
         "break"
     ]

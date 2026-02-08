@@ -62,6 +62,10 @@ waypaper.target = '~/.config/waypaper/style.css'
 wofi.template = 'wofi.css'
 wofi.target = '~/.config/wofi/style.css'
 
+waybar.template = 'waybar.css'
+waybar.target = '~/.config/waybar/style.css'
+
 [hooks]
 hypr-reload = 'hyprctl reload'
 swaync-reload = 'swaync-client --reload-config --reload-css'
+waybar-reload = 'killall -SIGUSR2 waybar 2>/dev/null || waybar &'
