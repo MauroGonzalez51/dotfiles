@@ -1,0 +1,51 @@
+window {
+    background-color: {{ background }};
+    color: {{ foreground }};
+}
+
+window:backdrop {
+    background-color: {{ background }};
+    color: {{ foreground }};
+}
+
+scrollbar {
+    background-color: {{ color8 }};
+}
+
+scrollbar slider {
+    background-color: {{ color0 }};
+    border-radius: 4px;
+}
+
+scrollbar slider:hover {
+    background-color: {{ color4 }};
+}
+
+button {
+    background: {{ background }};
+    color: {{ foreground }};
+    border: none;
+    box-shadow: none;
+}
+
+entry {
+    background-color: {{ color0 }};
+    color: {{ foreground }};
+    border: none;
+}
+
+button,
+button:focus,
+button:checked,
+button:selected,
+button:active,
+button:backdrop,
+button:focus:backdrop,
+button:checked:backdrop {
+    background: {{ background }};
+    color: {{ foreground }};
+    border: none;
+    box-shadow: none;
+    outline: none;
+    -gtk-outline-radius: 0;
+}

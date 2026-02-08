@@ -1,0 +1,51 @@
+window {
+    background-color: #190000;
+    color: #C0C4C3;
+}
+
+window:backdrop {
+    background-color: #190000;
+    color: #C0C4C3;
+}
+
+scrollbar {
+    background-color: #6D7171;
+}
+
+scrollbar slider {
+    background-color: #2F1A1A;
+    border-radius: 4px;
+}
+
+scrollbar slider:hover {
+    background-color: #927167;
+}
+
+button {
+    background: #190000;
+    color: #C0C4C3;
+    border: none;
+    box-shadow: none;
+}
+
+entry {
+    background-color: #2F1A1A;
+    color: #C0C4C3;
+    border: none;
+}
+
+button,
+button:focus,
+button:checked,
+button:selected,
+button:active,
+button:backdrop,
+button:focus:backdrop,
+button:checked:backdrop {
+    background: #190000;
+    color: #C0C4C3;
+    border: none;
+    box-shadow: none;
+    outline: none;
+    -gtk-outline-radius: 0;
+}

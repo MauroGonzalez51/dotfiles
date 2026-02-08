@@ -56,6 +56,9 @@ kitty.target = '~/.config/kitty/colors.conf'
 swaync.template = 'swaync.css'
 swaync.target = '~/.config/swaync/style.css'
 
+waypaper.template = 'waypaper.css'
+waypaper.target = '~/.config/waypaper/style.css'
+
 [hooks]
 hypr-reload = 'hyprctl reload'
 swaync-reload = 'swaync-client --reload-config --reload-css'
