@@ -18,15 +18,15 @@ class PowerActions(enum.Enum):
         command=["systemctl", "poweroff"],
     )
     REBOOT = PowerOption(label="Reboot", command=["systemctl", "reboot"])
-    LOGOUT = PowerOption(
-        label="Log Out",
-        command=["hyprctl", "dispatch", "exit"],
-    )
     SUSPEND = PowerOption(
         label="Suspend",
         command=["systemctl", "suspend"],
     )
     LOCK = PowerOption(label="Lock", command=["hyprlock"])
+    LOGOUT = PowerOption(
+        label="Log Out",
+        command=["hyprctl", "dispatch", "exit"],
+    )
 
 
 def main() -> None:
