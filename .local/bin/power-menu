@@ -1,0 +1,58 @@
+#!/usr/bin/env python3
+
+import enum
+import subprocess
+from dataclasses import dataclass
+from typing import List
+
+
+@dataclass
+class PowerOption:
+    label: str
+    command: List[str]
+
+
+class PowerActions(enum.Enum):
+    SHUTDOWN = PowerOption(
+        label="Shutdown",
+        command=["systemctl", "poweroff"],
+    )
+    REBOOT = PowerOption(label="Reboot", command=["systemctl", "reboot"])
+    LOGOUT = PowerOption(
+        label="Log Out",
+        command=["hyprctl", "dispatch", "exit"],
+    )
+    SUSPEND = PowerOption(
+        label="Suspend",
+        command=["systemctl", "suspend"],
+    )
+    LOCK = PowerOption(label="Lock", command=["hyprlock"])
+
+
+def main() -> None:
+    menu_text = "\n".join([action.value.label for action in PowerActions])
+
+    try:
+        (result,) = (
+            subprocess.run(
+                ["wofi", "--dmenu", "--insensitive", "--allow-images"],
+                input=menu_text,
+                capture_output=True,
+                text=True,
+            ),
+        )
+
+        if result.returncode == 0 and result.stdout.strip():
+            choice = result.stdout.strip()
+
+            for action in PowerActions:
+                if choice == action.value.label:
+                    subprocess.run(action.value.command, capture_output=True, text=True)
+                    break
+
+    except Exception as exception:
+        print(f"[exception] {exception}")
+
+
+if __name__ == "__main__":
+    main()

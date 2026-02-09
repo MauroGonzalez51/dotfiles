@@ -19,7 +19,6 @@
   border-radius: 1rem 1rem 0 0;
   outline: none;
   box-shadow: none;
-  -gtk-outline: none;
 }
 
 #window #outer-box #input:focus,
@@ -29,7 +28,6 @@
   border-bottom: 1px solid rgba(5,19,25, 0.2);
   outline: none;
   box-shadow: none;
-  -gtk-outline: none;
   background-color: rgba(5,19,25, 0.6);
 }
 
@@ -44,7 +42,6 @@
 }
 
 #window #outer-box #scroll #inner-box #entry #img {
-  width: 1rem;
   margin-right: 0.5rem;
 }
 

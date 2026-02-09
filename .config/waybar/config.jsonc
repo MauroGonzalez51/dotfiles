@@ -138,6 +138,6 @@
 
     "custom/power": {
         "format": "\u23fc",
-        "on-click": "~/.local/bin/power-menu.py"
+        "on-click": "power-menu"
     }
 }
