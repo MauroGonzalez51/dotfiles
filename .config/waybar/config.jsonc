@@ -1,6 +1,9 @@
 {
     "position": "top",
+    "output": ["*"],
     "height": 32,
+    "passthrough": false,
+    "reload_style_on_change": true,
     "margin": "4, 8, 2, 8",
     "modules-left": ["hyprland/workspaces", "cpu", "memory", "network", "disk"],
     "modules-center": ["mpris"],
