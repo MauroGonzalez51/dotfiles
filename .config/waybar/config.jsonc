@@ -20,9 +20,13 @@
     "hyprland/workspaces": {
         "format": "{icon}",
         "format-icons": {
-            "urgent": "\udb86\udd78",
+            "default": "\uf192",
             "active": "\uf444",
-            "default": "\uf192"
+            "visible": "\uf444",
+            "persistent": "\uebf8"
+        },
+        "persistent-workspaces": {
+            "*": 5
         }
     },
 
