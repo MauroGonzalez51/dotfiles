@@ -67,7 +67,8 @@
 #mpd,
 #clock,
 #temperature, 
-#custom-power {
+#custom-power,
+#custom-nvidia {
   margin: 4px 2px;
   padding: 0 6px;
   border-radius: 20px;
@@ -96,4 +97,12 @@
 
 #temperature.critical {
   color: {{ color1 }};
+}
+
+#temperature {
+  margin: 4px 2px;
+  padding: 0 3px;  /* Reduce el padding */
+  border-radius: 20px;
+  min-width: 10px;
+  background-color: transparent;
 }

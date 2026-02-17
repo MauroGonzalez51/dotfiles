@@ -5,7 +5,16 @@
     "passthrough": false,
     "reload_style_on_change": true,
     "margin": "4, 8, 2, 8",
-    "modules-left": ["hyprland/workspaces", "cpu", "memory", "network", "disk"],
+    "modules-left": [
+        "hyprland/workspaces",
+        "cpu",
+        "memory",
+        "disk",
+        "temperature#cpu",
+        "temperature#gpu",
+        "temperature#nvme",
+        "custom/nvidia"
+    ],
     "modules-center": ["mpris"],
     "modules-right": [
         "tray",
@@ -14,6 +23,7 @@
         "pulseaudio",
         "battery",
         "clock",
+        "network",
         "custom/power"
     ],
 
@@ -59,6 +69,31 @@
 
     "disk": {
         "format": "\uf0c7 {percentage_used}%"
+    },
+
+    "temperature#cpu": {
+        "hwmon-path": "/sys/class/hwmon/hwmon5/temp1_input",
+        "critical_threshold": 80,
+        "tooltip-format": "CPU {temperatureC}°C"
+    },
+
+    "temperature#gpu": {
+        "hwmon-path": "/sys/class/hwmon/hwmon4/temp1_input",
+        "critical-threshold": 85,
+        "tooltip-format": "GPU (Integrated) {temperatureC}°C"
+    },
+
+    "temperature#nvme": {
+        "hwmon-path": "/sys/class/hwmon/hwmon3/temp1_input",
+        "critical-threshold": 70,
+        "tooltip-format": "NVME {temperatureC}°C"
+    },
+
+    "custom/nvidia": {
+        "exec": "~/.local/bin/nvidia-temperature",
+        "format": "{}°C",
+        "interval": 5,
+        "tooltip-format": "NVIDIA {}°C"
     },
 
     "mpris": {
