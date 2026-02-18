@@ -65,6 +65,9 @@ wofi.target = '~/.config/wofi/style.css'
 waybar.template = 'waybar.css'
 waybar.target = '~/.config/waybar/style.css'
 
+spotatui.template = "spotatui.yml"
+spotatui.target = "~/.config/spotatui/config.yml"
+
 [hooks]
 hypr-reload = 'hyprctl reload'
 swaync-reload = 'swaync-client --reload-config --reload-css'
