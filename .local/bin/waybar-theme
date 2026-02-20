@@ -6,20 +6,12 @@ import argparse
 from dataclasses import dataclass
 from pathlib import Path
 from typing import List, Optional, Dict
-import enum
 import subprocess
+import sys
 
 STATE_FILE = "theme-state.json"
-
-
-class EnvKeys(enum.Enum):
-    WaybarConfigPath = "WAYBAR_CONFIG_PATH"
-    WaybarStylePath = "WAYBAR_STYLE_PATH"
-
-
-class ConfigFile(enum.Enum):
-    Config = "config.jsonc"
-    Style = "style.css"
+CONFIG_FILES = ("config.jsonc", "config.json")
+STYLE_FILES = ("style.css", "styles.css")
 
 
 @dataclass
@@ -29,8 +21,29 @@ class Theme:
     style_path: Path
 
 
-def reload() -> None:
+def reload_waybar() -> None:
     subprocess.run(["pkill", "-USR2", "waybar"], check=False)
+
+
+def exec_waybar(config_path: Path, style_path: Path) -> None:
+    subprocess.Popen(
+        [
+            "waybar",
+            "--config",
+            str(config_path.absolute()),
+            "--style",
+            str(style_path.absolute()),
+        ],
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+        stdin=subprocess.DEVNULL,
+        start_new_session=True,
+        close_fds=True,
+    )
+
+
+def kill_waybar() -> None:
+    subprocess.run(["killall", "waybar"])
 
 
 def state_path(config_directory: Path) -> Path:
@@ -86,12 +99,35 @@ def resolve_init(config_directory: Path, themes: List[Theme]) -> Theme:
     return themes[0]
 
 
+def resolve_config_file(directory: Path) -> Optional[Path]:
+    for name in CONFIG_FILES:
+        candidate = directory / name
+        if candidate.exists():
+            return candidate
+
+    return None
+
+
+def resolve_style_file(directory: Path) -> Optional[Path]:
+    for name in STYLE_FILES:
+        candidate = directory / name
+        if candidate.exists():
+            return candidate
+
+    return None
+
+
 def discover_themes(config_directory: Path) -> List[Theme]:
     themes: List[Theme] = []
 
-    default_config = config_directory / ConfigFile.Config.value
-    default_styles = config_directory / ConfigFile.Style.value
-    if default_config.exists() and default_styles.exists():
+    default_config = resolve_config_file(directory=config_directory)
+    default_styles = resolve_style_file(directory=config_directory)
+    if (
+        default_config
+        and default_config.exists()
+        and default_styles
+        and default_styles.exists()
+    ):
         themes.append(
             Theme(
                 label="Default", config_path=default_config, style_path=default_styles
@@ -103,9 +139,9 @@ def discover_themes(config_directory: Path) -> List[Theme]:
         for theme_directory in sorted(
             p for p in themes_directory.iterdir() if p.is_dir()
         ):
-            cfg = theme_directory / ConfigFile.Config.value
-            css = theme_directory / ConfigFile.Style.value
-            if cfg.exists() and css.exists():
+            cfg = resolve_config_file(directory=theme_directory)
+            css = resolve_style_file(directory=theme_directory)
+            if cfg and cfg.exists() and css and css.exists():
                 themes.append(
                     Theme(label=theme_directory.name, config_path=cfg, style_path=css)
                 )
@@ -125,12 +161,11 @@ def main() -> None:
 
     group = parser.add_mutually_exclusive_group()
     group.add_argument("--select", metavar="NAME", help="Select Theme")
-    group.add_argument("--select-wofi")
+    group.add_argument("--select-wofi", action="store_true")
     group.add_argument("--init", action="store_true", help="Init from saved state")
     group.add_argument("--list", action="store_true", help="List available themes")
-
-    parser.add_argument(
-        "--reload", action="store_true", help="Reload waybar configuration"
+    group.add_argument(
+        "--reload", action="store_true", help="Reload current configuration"
     )
 
     args = parser.parse_args()
@@ -140,7 +175,7 @@ def main() -> None:
         raise SystemExit("could not detect home directory")
 
     config_directory = Path(home).resolve() / ".config" / "waybar"
-    if not config_directory.exists():
+    if not config_directory.exists() and not config_directory.is_dir():
         raise SystemExit(f"{config_directory} does not exists")
 
     themes = discover_themes(config_directory=config_directory)
@@ -148,27 +183,100 @@ def main() -> None:
         raise SystemExit("no valid themes found")
 
     if args.list:
+        """
+        [LIST]
+        Just print all the theme labels
+        """
         for theme in themes:
-            print(theme.label.lower())
+            print(theme.label)
         return
 
-    selected_theme: Optional[Theme] = None
+    if args.init:
+        """
+        [INIT]
+        Should read config based on the file saved and then init waybar
+
+        Pipeline:
+            init > load_state > exec_waybar > exit
+
+            resolve_init = load_state, returns default theme if file cound not be readed
+        """
+
+        selected_theme = resolve_init(config_directory=config_directory, themes=themes)
+        exec_waybar(
+            config_path=selected_theme.config_path, style_path=selected_theme.style_path
+        )
+        return
 
     if args.select:
+        """
+        [SELECT]
+        Select a new theme and apply it
+
+        Pipeline:
+            discover_themes > find_theme (input)
+                > kill waybar > exec_waybar > save_state > exit
+                > reload_waybar > save_state > exit
+        """
+
         selected = find_theme(themes=themes, label=args.select)
         if not selected:
             available = ", ".join(t.label for t in themes)
             raise SystemExit(f"theme '{args.select}' not found. available: {available}")
 
-        selected_theme = selected
+        state = load_state(config_directory=config_directory)
+        if state and state.label.lower() == selected.label.lower():
+            return
 
-    if args.init:
-        selected_theme = resolve_init(config_directory=config_directory, themes=themes)
+        kill_waybar()
+        exec_waybar(config_path=selected.config_path, style_path=selected.style_path)
+        save_state(config_directory=config_directory, theme=selected)
+        return
 
-    if selected_theme:
-        save_state(config_directory=config_directory, theme=selected_theme)
-        if args.reload:
-            reload()
+    if args.reload:
+        """
+        [RELOAD]
+        Just reload the config
+        """
+        reload_waybar()
+        return
+
+    if args.select_wofi:
+        """
+        [SELECT_WOFI]
+        Use wofi --dmenu to select theme to display
+
+        Pipeline:
+            discover_themes > wofi --dmenu (subprocess) > find_theme
+                theme && kill_waybar > exec_waybar > save_state
+        """
+        menu_text = "\n".join([theme.label for theme in themes])
+
+        try:
+            result = subprocess.run(
+                ["wofi", "--dmenu", "--insensitive", "--allow-images"],
+                input=menu_text,
+                capture_output=True,
+                text=True,
+            )
+
+            if result.returncode == 0 and result.stdout.strip():
+                choice = result.stdout.strip()
+
+                selected = find_theme(themes=themes, label=choice)
+
+                if selected:
+                    state = load_state(config_directory=config_directory)
+                    if state and state.label.lower() == selected.label.lower():
+                        return
+
+                    kill_waybar()
+                    exec_waybar(
+                        config_path=selected.config_path, style_path=selected.style_path
+                    )
+                    save_state(config_directory=config_directory, theme=selected)
+        except Exception as exception:
+            sys.stderr.write(f"[exception] {exception}\n")
 
 
 if __name__ == "__main__":

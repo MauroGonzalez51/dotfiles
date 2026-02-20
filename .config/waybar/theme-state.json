@@ -1,5 +1,5 @@
 {
-  "theme": "dummy",
-  "config_path": "/home/arch/.config/waybar/themes/dummy/config.jsonc",
-  "style_path": "/home/arch/.config/waybar/themes/dummy/style.css"
+  "theme": "Default",
+  "config_path": "/home/arch/.config/waybar/config.jsonc",
+  "style_path": "/home/arch/.config/waybar/style.css"
 }

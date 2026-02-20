@@ -71,4 +71,5 @@ spotatui.target = "~/.config/spotatui/config.yml"
 [hooks]
 hypr-reload = 'hyprctl reload'
 swaync-reload = 'swaync-client --reload-config --reload-css'
-waybar-reload = 'killall -SIGUSR2 waybar 2>/dev/null || waybar &'
+# waybar-reload = 'killall -SIGUSR2 waybar 2>/dev/null || waybar &'
+waybar-reload = "~/.local/bin/waybar-theme --reload"
