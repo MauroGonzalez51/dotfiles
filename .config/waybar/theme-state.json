@@ -1,0 +1,5 @@
+{
+  "theme": "dummy",
+  "config_path": "/home/arch/.config/waybar/themes/dummy/config.jsonc",
+  "style_path": "/home/arch/.config/waybar/themes/dummy/style.css"
+}

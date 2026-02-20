@@ -10,7 +10,7 @@
   margin-top: 14px;
   background: rgba(5,19,25, 0.8);
   border-radius: 12px;
-  border: 2px solid #495D67;
+  border: 2px solid #8C76AB;
 }
 
 #workspaces {
@@ -90,7 +90,7 @@
 #custom-power {
   margin: 4px 5px 4px 1px;
   padding: 0 6px;
-  background-color: #AD9C42;
+  background-color: #8C76AB;
   border-radius: 10px;
   min-width: 15px;
 }
@@ -101,7 +101,7 @@
 
 #temperature {
   margin: 4px 2px;
-  padding: 0 3px;  /* Reduce el padding */
+  padding: 0 3px;
   border-radius: 20px;
   min-width: 10px;
   background-color: transparent;
