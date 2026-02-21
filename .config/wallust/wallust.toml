@@ -65,6 +65,9 @@ wofi.target = '~/.config/wofi/style.css'
 waybar_theme_default.template = 'waybar/waybar_default.css'
 waybar_theme_default.target = '~/.config/waybar/style.css'
 
+waybar_theme_tri-islands.template = 'waybar/waybar_tri-islands.css'
+waybar_theme_tri-islands.target = '~/.config/waybar/themes/tri-islands/style.css'
+
 spotatui.template = "spotatui.yml"
 spotatui.target = "~/.config/spotatui/config.yml"
 

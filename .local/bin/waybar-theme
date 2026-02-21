@@ -25,6 +25,16 @@ def reload_waybar() -> None:
     subprocess.run(["pkill", "-USR2", "waybar"], check=False)
 
 
+def is_waybar_running() -> bool:
+    result = subprocess.run(
+        ["pgrep", "-x", "waybar"],
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+        check=False,
+    )
+    return result.returncode == 0
+
+
 def exec_waybar(config_path: Path, style_path: Path) -> None:
     subprocess.Popen(
         [
@@ -236,9 +246,17 @@ def main() -> None:
     if args.reload:
         """
         [RELOAD]
-        Just reload the config
+        Reload if waybar is running, otherwise launch it
         """
-        reload_waybar()
+        if is_waybar_running():
+            reload_waybar()
+            return
+
+        selected_theme = resolve_init(config_directory=config_directory, themes=themes)
+        exec_waybar(
+            config_path=selected_theme.config_path,
+            style_path=selected_theme.style_path,
+        )
         return
 
     if args.select_wofi:

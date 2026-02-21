@@ -1,0 +1,238 @@
+@define-color foreground {{foreground}};
+@define-color background {{background}};
+
+@define-color color1 {{color1}};
+@define-color color2 {{color2}};
+@define-color color3 {{color3}};
+@define-color color4 {{color4}};
+@define-color color5 {{color5}};
+@define-color color6 {{color6}};
+@define-color color7 {{color7}};
+@define-color color8 {{color8}};
+@define-color color9 {{color9}};
+@define-color color10 {{color10}};
+@define-color color11 {{color11}};
+@define-color color12 {{color12}};
+@define-color color13 {{color13}};
+@define-color color14 {{color14}};
+@define-color color15 {{color15}};
+
+* {
+    font-family: JetBrains Mono Nerd Font;
+    font-size: 14px;
+    letter-spacing: -0.03em;
+    font-weight: 400;
+    min-height: 0;
+}
+
+window#waybar {
+    background: transparent;
+    border: none;
+    opacity: 1;
+}
+
+window#waybar.hidden {
+    opacity: 0;
+}
+
+.modules-left,
+.modules-center,
+.modules-right {
+    background-color: alpha(@background, 0.92);
+    border: 3px solid @color8;
+    border-radius: 12px;
+    padding: 3px 7px;
+    margin: 0 4px;
+}
+
+#custom-updates,
+#custom-music,
+#custom-arch,
+#workspaces,
+#window {
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    padding: 0 10px;
+    margin: 1px 1px;
+    color: @foreground;
+}
+
+#tray,
+#custom-brightness,
+#language,
+#bluetooth,
+#custom-gpu-usage,
+#custom-wf-recorder,
+#custom-updates,
+#custom-notifications,
+#pulseaudio,
+#network,
+#cpu,
+#memory,
+#temperature,
+#temperature.cpu,
+#temperature.gpu,
+#battery,
+#backlight {
+    padding: 0 10px;
+    min-width: 15px;
+    margin: 1px 1px;
+    border-radius: 8px;
+    border: none;
+}
+
+#workspaces {
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    padding: 0 1px;
+}
+
+#workspaces button {
+    border-radius: 999px;
+    border: none;
+    margin: 2px 2px;
+    min-width: 24px;
+    min-height: 22px;
+    font-weight: 700;
+    color: @color8;
+    background: transparent;
+    padding: 0 6px;
+}
+
+#workspaces button label {
+    font-size: 12px;
+    padding: 0;
+    color: @color8;
+}
+
+#workspaces button:hover {
+    background-color: alpha(@color1, 0.20);
+}
+
+#workspaces button:hover label {
+    color: @color1;
+}
+
+#workspaces button.active {
+    background-color: @color1;
+}
+
+#workspaces button.active label {
+    color: @background;
+}
+
+#workspaces button.urgent {
+    background-color: @color9;
+}
+
+#workspaces button.urgent label {
+    color: @background;
+}
+
+#clock.time,
+#clock.date {
+    color: @color1;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    padding: 0 14px;
+    margin: 1px 1px;
+}
+
+#clock.time:hover,
+#clock.date:hover {
+    color: @color1;
+    background-color: alpha(@color1, 0.20);
+}
+
+#network {
+    background: transparent;
+    color: @foreground;
+}
+
+#backlight {
+    background: transparent;
+    color: @foreground;
+}
+
+#network.disconnected {
+    color: @color9;
+    background: transparent;
+}
+
+#network.linked {
+    color: @color2;
+    background: transparent;
+}
+
+#pulseaudio {
+    color: @foreground;
+    background: transparent;
+}
+
+#pulseaudio.muted {
+    color: @color9;
+}
+
+#network:hover,
+#pulseaudio:hover {
+    color: @color1;
+    background-color: alpha(@color1, 0.20);
+}
+
+#pulseaudio.muted:hover {
+    color: @color9;
+    background-color: alpha(@color1, 0.20);
+}
+
+#custom-notifications {
+    background: transparent;
+    color: @foreground;
+    font-size: 15px;
+}
+
+#custom-notifications:hover {
+    color: @color1;
+    background-color: alpha(@color1, 0.20);
+}
+
+#custom-notifications.dnd-none {
+    color: @color9;
+}
+
+#custom-notifications.dnd-none:hover {
+    color: @color9;
+    background-color: alpha(@color1, 0.20);
+}
+
+#bluetooth,
+#language,
+#tray,
+#temperature.cpu,
+#temperature.gpu,
+#temperature.nvme {
+    color: @foreground;
+    background: transparent;
+}
+
+#custom-wf-recorder:hover,
+#bluetooth:hover,
+#language:hover {
+    color: @color1;
+    background-color: alpha(@color1, 0.20);
+}
+
+#window {
+    color: @color1;
+    background: transparent;
+    border: none;
+    padding: 0 14px;
+    min-width: 120px;
+}
+
+#window.empty {
+    background-color: transparent;
+    border-color: transparent;
+}

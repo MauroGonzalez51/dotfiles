@@ -1,0 +1,29 @@
+[
+    {
+        "include": "~/.config/waybar/themes/tri-islands/modules.jsonc",
+        "height": 32,
+        "layer": "top",
+        "mode": "dock",
+        "exclusive": true,
+        "passtrough": false,
+        "gtk-layer-shell": true,
+        "margin": "4, 8, 2, 8",
+        "on-scroll-threshold": 1,
+        "modules-left": [
+            "hyprland/workspaces",
+            "temperature#cpu",
+            "temperature#gpu",
+            "temperature#nvme",
+            "custom/notifications"
+        ],
+        "modules-center": ["clock#date", "mpris", "clock#time"],
+        "modules-right": [
+            "tray",
+            "network",
+            "hyprland/language",
+            "bluetooth",
+            "backlight",
+            "pulseaudio"
+        ]
+    }
+]
