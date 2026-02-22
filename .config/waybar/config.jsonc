@@ -23,6 +23,8 @@
         "pulseaudio",
         "battery",
         "network",
+        "bluetooth",
+        "custom/notifications",
         "clock",
         "custom/power"
     ],
@@ -53,6 +55,15 @@
         "max-length": 10,
         "warning": 70,
         "critical": 90
+    },
+
+    "bluetooth": {
+        "format": "",
+        "format-on": "\udb80\udcaf",
+        "format-connected": "\udb80\udcaf",
+        "format-connected-battery": "\udb80\udcaf ({device_battery_percentage}%)",
+        "format-alt": "{controller_alias} {controller_address}",
+        "format-alt-click": "click-right"
     },
 
     "network": {
@@ -108,6 +119,27 @@
 
     "tray": {
         "icon-size": 12
+    },
+
+    "custom/notifications": {
+        "tooltip": false,
+        "format": "{icon}",
+        "format-icons": {
+            "notification": "\uf0f3",
+            "none": "\uf1f6",
+            "dnd-notification": "\uf4b3",
+            "dnd-none": "\uf4b3",
+            "inhibited-notification": "\uf0f3",
+            "inhibited-none": "\uf1f6",
+            "dnd-inhibited-notification": "\uf4b3",
+            "dnd-inhibited-none": "\uf4b3"
+        },
+        "return-type": "json",
+        "exec-if": "which swaync-client",
+        "exec": "swaync-client -swb",
+        "on-click": "sleep 0.1 && swaync-client -t -sw",
+        "on-click-right": "swaync-client -d -sw",
+        "escape": true
     },
 
     "backlight": {

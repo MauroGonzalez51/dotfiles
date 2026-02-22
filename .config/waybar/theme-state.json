@@ -1,5 +1,5 @@
 {
-  "theme": "tri-islands",
-  "config_path": "/home/arch/.config/waybar/themes/tri-islands/config.jsonc",
-  "style_path": "/home/arch/.config/waybar/themes/tri-islands/style.css"
+  "theme": "Default",
+  "config_path": "/home/arch/.config/waybar/config.jsonc",
+  "style_path": "/home/arch/.config/waybar/style.css"
 }
