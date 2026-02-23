@@ -208,7 +208,8 @@
     "clock": {
         "interval": 1,
         "format": "{:%I:%M %p}",
-        "format-alt": "\uf133 {:%a,%b %d}"
+        "format-alt": "\uf133 {:%a,%b %d}",
+        "tooltip-format": "{calendar}"
     },
 
     "custom/power": {

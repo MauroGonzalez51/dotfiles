@@ -27,6 +27,7 @@ keybindings:
   add_item_to_queue: z
   open_settings: alt-,
   save_settings: alt-s
+
 behavior:
   seek_milliseconds: 5000
   volume_increment: 10
@@ -41,7 +42,7 @@ behavior:
   enable_announcements: true
   announcement_feed_url: null
   seen_announcement_ids:
-  - 2026-02-16-announcements-live
+    - 2026-02-16-announcements-live
   shuffle_enabled: false
   liked_icon: ♥
   shuffle_icon: 🔀
@@ -51,20 +52,21 @@ behavior:
   paused_icon: ⏸
   set_window_title: true
   visualizer_style: Equalizer
+
 theme:
-  active: 161, 62, 85
-  banner: 161, 62, 85
-  error_border: 173, 156, 66
-  error_text: 173, 156, 66
-  hint: 140, 118, 171
-  hovered: 161, 62, 85
-  inactive: 130, 85, 96
+  active: 161,62,85
+  banner: 161,62,85
+  error_border: 173,156,66
+  error_text: 173,156,66
+  hint: 140,118,171
+  hovered: 161,62,85
+  inactive: 130,85,96
   playbar_background: Reset
-  playbar_progress: 161, 62, 85
-  playbar_progress_text: 50, 64, 73
-  playbar_text: 213, 168, 178
-  selected: 173, 156, 66
-  text: 213, 168, 178
+  playbar_progress: 161,62,85
+  playbar_progress_text: 50,64,73
+  playbar_text: 213,168,178
+  selected: 173,156,66
+  text: 213,168,178
   background: Reset
-  header: 161, 62, 85
-  highlighted_lyrics: 161, 62, 85
+  header: 161,62,85
+  highlighted_lyrics: 161,62,85
