@@ -1,21 +1,21 @@
-@define-color foreground #D5A8B2;
-@define-color background #051319;
+@define-color foreground #C6CACD;
+@define-color background #1B1500;
 
-@define-color color1 #AD9C42;
-@define-color color2 #A97886;
-@define-color color3 #8C76AB;
-@define-color color4 #495D67;
-@define-color color5 #826F67;
-@define-color color6 #A13E55;
-@define-color color7 #BA7A88;
-@define-color color8 #825560;
-@define-color color9 #AD9C42;
-@define-color color10 #A97886;
-@define-color color11 #8C76AB;
-@define-color color12 #495D67;
-@define-color color13 #826F67;
-@define-color color14 #A13E55;
-@define-color color15 #BA7A88;
+@define-color color1 #AA4F57;
+@define-color color2 #BF7F62;
+@define-color color3 #78635D;
+@define-color color4 #4F5274;
+@define-color color5 #485D59;
+@define-color color6 #7B858A;
+@define-color color7 #A6ACAE;
+@define-color color8 #74787A;
+@define-color color9 #AA4F57;
+@define-color color10 #BF7F62;
+@define-color color11 #78635D;
+@define-color color12 #4F5274;
+@define-color color13 #485D59;
+@define-color color14 #7B858A;
+@define-color color15 #A6ACAE;
 
 * {
     font-family: JetBrains Mono Nerd Font;

@@ -3,14 +3,14 @@
   box-shadow: none;
   font-family: "JetBrains Mono Nerd Font", monospace;
   font-size: 12.5px;
-  color: #D5A8B2;
+  color: #C6CACD;
 }
 
 #waybar {
   margin-top: 14px;
-  background: rgba(5,19,25, 0.8);
+  background: rgba(27,21,0, 0.8);
   border-radius: 12px;
-  border: 2px solid #8C76AB;
+  border: 2px solid #78635D;
   min-height: 0;
 }
 
@@ -30,31 +30,27 @@
 }
 
 #workspaces button.active {
-  background-color: #8C76AB;
+  background-color: #78635D;
 }
 
 #workspaces button.active * {
-  color: #051319;
+  color: #1B1500;
 }
 
 #workspaces button.urgent * {
-  color: #051319;
-  background-color: #AD9C42;
-}
-
-#workspaces button.urgent * {
-  color: rgba(173,156,66, 0.8);
+  color: #1B1500;
+  background-color: #AA4F57;
 }
 
 #tray {
   margin: 3px 2px;
   border-radius: 12px;
-  background-color: rgba(50,64,73, 0.4);
+  background-color: rgba(75,68,45, 0.4);
 }
 
 #tray * {
   padding: 0 6px;
-  border-left: 1px solid #324049;
+  border-left: 1px solid #4B442D;
 }
 
 #tray *:first-child {
@@ -101,22 +97,22 @@
 #custom-power {
   margin: 4px 5px 4px 1px;
   padding: 0 10px;
-  background-color: #8C76AB;
+  background-color: #78635D;
   border-radius: 8px;
   min-width: 15px;
 }
 
 #custom-notifications {
-    color: #D5A8B2;
+    color: #C6CACD;
     font-size: 12px;
 }
 
 #custom-notifications:hover {
-    color: #8C76AB;
+    color: #78635D;
 }
 
 #temperature.critical {
-  color: #8C76AB;
+  color: #78635D;
 }
 
 #temperature {

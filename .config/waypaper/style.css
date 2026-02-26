@@ -1,36 +1,36 @@
 window {
-    background-color: #051319;
-    color: #D5A8B2;
+    background-color: #1B1500;
+    color: #C6CACD;
 }
 
 window:backdrop {
-    background-color: #051319;
-    color: #D5A8B2;
+    background-color: #1B1500;
+    color: #C6CACD;
 }
 
 scrollbar {
-    background-color: #825560;
+    background-color: #74787A;
 }
 
 scrollbar slider {
-    background-color: #324049;
+    background-color: #4B442D;
     border-radius: 4px;
 }
 
 scrollbar slider:hover {
-    background-color: #495D67;
+    background-color: #4F5274;
 }
 
 button {
-    background: #051319;
-    color: #D5A8B2;
+    background: #1B1500;
+    color: #C6CACD;
     border: none;
     box-shadow: none;
 }
 
 entry {
-    background-color: #324049;
-    color: #D5A8B2;
+    background-color: #4B442D;
+    color: #C6CACD;
     border: none;
 }
 
@@ -42,8 +42,8 @@ button:active,
 button:backdrop,
 button:focus:backdrop,
 button:checked:backdrop {
-    background: #051319;
-    color: #D5A8B2;
+    background: #1B1500;
+    color: #C6CACD;
     border: none;
     box-shadow: none;
     outline: none;
