@@ -11,32 +11,35 @@
   background: rgba({{ background | rgb }}, 0.8);
   border-radius: 12px;
   border: 2px solid {{ color3 }};
+  min-height: 0;
 }
 
 #workspaces {
-  margin: 0 3px;
+  margin-top: 0;
+  margin-left: 3px;
   color: transparent;
+  padding: 0;
 }
 
 #workspaces button {
-  margin: 3px 0;
-  padding: 0 4px;
+  margin: 4px 3px;
+  padding: 0px 3px;
+  background: transparent;
+  border-radius: 12px;
+  font-weight: 700;
 }
 
-#workspaces button.visible {
+#workspaces button.active {
+  background-color: {{ color3 }};
 }
 
-#workspaces button.focused {
-  border-radius: 10px;
-  background-color: rgba({{ color0 | rgb }}, 0.4);
-}
-
-#workspaces button.urgent {
-  border-radius: 10px;
+#workspaces button.active * {
+  color: {{ background }};
 }
 
 #workspaces button.urgent * {
-  color: rgba({{ color1 | rgb }}, 0.8);
+  color: {{ background }};
+  background-color: {{ color1 }};
 }
 
 #tray {

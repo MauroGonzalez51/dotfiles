@@ -11,28 +11,35 @@
   background: rgba(5,19,25, 0.8);
   border-radius: 12px;
   border: 2px solid #8C76AB;
+  min-height: 0;
 }
 
 #workspaces {
-  margin: 0 3px;
+  margin-top: 0;
+  margin-left: 3px;
   color: transparent;
+  padding: 0;
 }
 
 #workspaces button {
-  margin: 3px 0;
-  padding: 0 4px;
+  margin: 4px 3px;
+  padding: 0px 3px;
+  background: transparent;
+  border-radius: 12px;
+  font-weight: 700;
 }
 
-#workspaces button.visible {
+#workspaces button.active {
+  background-color: #8C76AB;
 }
 
-#workspaces button.focused {
-  border-radius: 10px;
-  background-color: rgba(50,64,73, 0.4);
+#workspaces button.active * {
+  color: #051319;
 }
 
-#workspaces button.urgent {
-  border-radius: 10px;
+#workspaces button.urgent * {
+  color: #051319;
+  background-color: #AD9C42;
 }
 
 #workspaces button.urgent * {
