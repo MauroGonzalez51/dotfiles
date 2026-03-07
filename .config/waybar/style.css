@@ -96,10 +96,18 @@
 
 #custom-power {
   margin: 4px 5px 4px 1px;
-  padding: 0 10px;
+  padding: 0 12px;
+  min-width: 28px;
+  min-height: 22px;
   background-color: #78635D;
   border-radius: 8px;
   min-width: 15px;
+}
+
+#custom-power label {
+  margin: 0;
+  padding: 0;
+  min-width: 0;
 }
 
 #custom-notifications {

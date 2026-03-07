@@ -207,7 +207,7 @@
     },
 
     "custom/power": {
-        "format": "\u23fc",
+        "format": "\uf011",
         "on-click": "~/.local/bin/power-menu"
     },
 
