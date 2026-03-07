@@ -1,0 +1,163 @@
+#!/usr/bin/env python3
+
+import json
+import subprocess
+from dataclasses import dataclass
+from typing import List, Optional
+
+
+@dataclass
+class LayoutOption:
+    label: str
+    index: int
+
+
+def run_command(
+    command: List[str], input_text: Optional[str] = None
+) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(
+        command,
+        input=input_text,
+        capture_output=True,
+        text=True,
+    )
+
+
+def get_main_keyboard_name() -> Optional[str]:
+    result = run_command(["hyprctl", "devices", "-j"])
+    if result.returncode != 0:
+        return None
+
+    try:
+        data = json.loads(result.stdout)
+        keyboards = data.get("keyboards", [])
+        if not keyboards:
+            return None
+
+        main_kb = next((kb for kb in keyboards if kb.get("main") is True), None)
+        if main_kb and main_kb.get("name"):
+            return main_kb["name"]
+
+        # fallback si no hay main
+        return keyboards[0].get("name")
+    except Exception:
+        return None
+
+
+def get_active_keymap(keyboard_name: str) -> str:
+    result = run_command(["hyprctl", "devices", "-j"])
+    if result.returncode != 0:
+        return "unknown"
+
+    try:
+        data = json.loads(result.stdout)
+        keyboards = data.get("keyboards", [])
+        for keyboard in keyboards:
+            if keyboard.get("name") == keyboard_name:
+                return keyboard.get("active_keymap", "unknown")
+    except Exception:
+        pass
+
+    return "unknown"
+
+
+def notify_layout(layout_name: str) -> None:
+    run_command(["notify-send", "-a", "Hyprland", "Keyboard Layout", layout_name])
+
+
+def switch_next() -> int:
+    keyboard_name = get_main_keyboard_name()
+    if not keyboard_name:
+        return 1
+
+    result = run_command(["hyprctl", "switchxkblayout", keyboard_name, "next"])
+    if result.returncode != 0:
+        return 1
+
+    layout = get_active_keymap(keyboard_name)
+    notify_layout(layout)
+    return 0
+
+
+def get_configured_layouts() -> list[str]:
+    result = run_command(["hyprctl", "getoption", "input:kb_layout", "-j"])
+    if result.returncode != 0:
+        return []
+
+    try:
+        data = json.loads(result.stdout)
+        raw = data.get("str", "")  # ej: "us,es"
+        return [item.strip() for item in raw.split(",") if item.strip()]
+    except Exception:
+        return []
+
+
+def build_layout_options() -> list[LayoutOption]:
+    layouts = get_configured_layouts()
+    if not layouts:
+        return []
+
+    return [
+        LayoutOption(label=layout.upper(), index=index)
+        for index, layout in enumerate(layouts)
+    ]
+
+
+def choose_menu() -> int:
+    keyboard_name = get_main_keyboard_name()
+    if not keyboard_name:
+        return 1
+
+    layout_options = build_layout_options()
+    menu_text = "\n".join(option.label for option in layout_options)
+
+    result = run_command(
+        ["wofi", "--dmenu", "--insensitive", "--allow-images", "-p", "Keyboard layout"],
+        input_text=menu_text,
+    )
+
+    if result.returncode != 0 or not result.stdout.strip():
+        return 0
+
+    choice = result.stdout.strip()
+    selected = next(
+        (option for option in layout_options if option.label == choice), None
+    )
+    if selected is None:
+        return 0
+
+    apply_result = run_command(
+        ["hyprctl", "switchxkblayout", keyboard_name, str(selected.index)]
+    )
+    if apply_result.returncode != 0:
+        return 1
+
+    layout = get_active_keymap(keyboard_name)
+    notify_layout(layout)
+    return 0
+
+
+def main() -> None:
+    import argparse
+
+    parser = argparse.ArgumentParser()
+
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument("--menu", action="store_true", help="Show Menu")
+    group.add_argument(
+        "--next", action="store_true", help="Switch to next keyboard layout"
+    )
+
+    args = parser.parse_args()
+
+    if args.menu:
+        raise SystemExit(choose_menu())
+
+    if args.next:
+        raise SystemExit(switch_next())
+
+    raise SystemExit(choose_menu())
+
+
+if __name__ == "__main__":
+    main()
