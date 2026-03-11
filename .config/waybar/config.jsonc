@@ -109,7 +109,8 @@
             "paused": "\uf04c",
             "stopped": "\uf04d"
         },
-        "tooltip-format": "{player}: {title}"
+        "tooltip-format": "{player}: {title}",
+        "title-len": 32
     },
 
     "tray": {
