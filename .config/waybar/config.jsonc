@@ -45,8 +45,10 @@
 
     "memory": {
         "interval": 30,
-        "format": "\ueb6a {percentage}%",
-        "max-length": 10,
+        "format": "\ueb6a {percentage}% \udb82\udfcd {swapPercentage}%",
+        "format-alt": "\ueb6a {used} GiB \udb82\udfcd {swapUsed} GiB",
+        "tooltip-format": "Memory: {percentage}% | Swap: {swapPercentage}%",
+        "max-length": 25,
         "warning": 70,
         "critical": 90
     },

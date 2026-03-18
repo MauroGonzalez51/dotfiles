@@ -25,7 +25,7 @@ class PowerActions(enum.Enum):
     LOCK = PowerOption(label="Lock", command=["hyprlock"])
     LOGOUT = PowerOption(
         label="Logout",
-        command=["hyprshutdown", "--dry-run"],
+        command=["hyprctl", "dispatch", "exit"],
     )
 
 
