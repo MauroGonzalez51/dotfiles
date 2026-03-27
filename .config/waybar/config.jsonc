@@ -12,8 +12,8 @@
         "disk",
         "temperature#cpu",
         "temperature#gpu",
-        "temperature#nvme",
-        "custom/nvidia"
+        "temperature#nvme"
+        // "custom/nvidia"
     ],
     "modules-center": ["mpris"],
     "modules-right": [

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+hyprctl binds \
+  | awk '/^bind/ {printf "%s + ", $4} /key:/ {printf "%s -> ", $2} /dispatcher:/ {printf "%s ", $2} /arg:/ {print $2 "\n"}' \
+  | sed 's/ + ->/ ->/g' \
+  | wofi --dmenu -i -p "Hyprland Binds"

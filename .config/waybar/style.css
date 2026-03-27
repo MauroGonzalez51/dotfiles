@@ -10,7 +10,7 @@
   margin-top: 14px;
   background: rgba(27,21,0, 0.8);
   border-radius: 12px;
-  border: 2px solid #78635D;
+  border: 2px solid #527078;
   min-height: 0;
 }
 
@@ -30,7 +30,7 @@
 }
 
 #workspaces button.active {
-  background-color: #78635D;
+  background-color: #527078;
 }
 
 #workspaces button.active * {
@@ -39,7 +39,7 @@
 
 #workspaces button.urgent * {
   color: #1B1500;
-  background-color: #AA4F57;
+  background-color: #139185;
 }
 
 #tray {
@@ -99,7 +99,7 @@
   padding: 0 12px;
   min-width: 28px;
   min-height: 22px;
-  background-color: #78635D;
+  background-color: #527078;
   border-radius: 8px;
   min-width: 15px;
 }
@@ -116,11 +116,11 @@
 }
 
 #custom-notifications:hover {
-    color: #78635D;
+    color: #527078;
 }
 
 #temperature.critical {
-  color: #78635D;
+  color: #527078;
 }
 
 #temperature {

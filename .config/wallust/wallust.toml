@@ -25,7 +25,7 @@ color_space = "salience"
 # softlight - softlight16 - softlightcomp - softlightcomp16
 # saliencedark - saliencedarkbalanced - saliencedarkdistributed - saliencedarklow (each has the 16 variations)
 # salienceligh - saliencelightbalanced - saliencelightdistributed - saliencelightlow (each has the 16 variations)
-palette = "dark"
+palette = "darkcomp"
 
 # Ensures a "readable contrast" (OPTIONAL, disabled by default)
 # Should only be enabled when you notice an unreadable contrast frequently happening
@@ -68,8 +68,8 @@ waybar_theme_default.target = '~/.config/waybar/style.css'
 waybar_theme_tri-islands.template = 'waybar/waybar_tri-islands.css'
 waybar_theme_tri-islands.target = '~/.config/waybar/themes/tri-islands/style.css'
 
-spotatui.template = "spotatui.yml"
-spotatui.target = "~/.config/spotatui/config.yml"
+waybar_theme_center.template = 'waybar/waybar_center.css'
+waybar_theme_center.target = '~/.config/waybar/themes/center/style.css'
 
 [hooks]
 hypr-reload = 'hyprctl reload'
