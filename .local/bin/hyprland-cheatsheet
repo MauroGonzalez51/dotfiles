@@ -1,6 +1,16 @@
 #!/bin/bash
 
-hyprctl binds \
-  | awk '/^bind/ {printf "%s + ", $4} /key:/ {printf "%s -> ", $2} /dispatcher:/ {printf "%s ", $2} /arg:/ {print $2 "\n"}' \
-  | sed 's/ + ->/ ->/g' \
-  | wofi --dmenu -i -p "Hyprland Binds"
+grep -rhE '^(bind[elmon]*)' ~/.config/hypr/*.conf \
+    | sed -E 's/^bind[a-z]*\s*=\s*//' \
+    | awk -F, '
+        {
+            gsub(/^[ \t]+|[ \t]+$/, "", $1);
+            gsub(/^[ \t]+|[ \t]+$/, "", $2);
+            gsub(/^[ \t]+|[ \t]+$/, "", $3);
+
+            mod = ($1 == "") ? "      " : $1;
+
+            printf "%-15s  󰁔  %-12s  󰁔  %s %s\n", mod, $2, $3, $4
+        }
+    ' \
+    | wofi --dmenu -i -b -p "Shortcuts"
