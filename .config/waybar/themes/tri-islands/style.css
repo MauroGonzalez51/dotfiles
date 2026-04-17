@@ -1,21 +1,21 @@
-@define-color foreground #C6CACD;
-@define-color background #1B1500;
+@define-color foreground #CFA6B2;
+@define-color background #1F1F1F;
 
-@define-color color1 #139185;
-@define-color color2 #4599BF;
-@define-color color3 #527078;
-@define-color color4 #746F48;
-@define-color color5 #5D4448;
-@define-color color6 #90786C;
-@define-color color7 #A6ACAE;
-@define-color color8 #74787A;
-@define-color color9 #139185;
-@define-color color10 #4599BF;
-@define-color color11 #527078;
-@define-color color12 #746F48;
-@define-color color13 #5D4448;
-@define-color color14 #90786C;
-@define-color color15 #A6ACAE;
+@define-color color1 #9E7F89;
+@define-color color2 #53967C;
+@define-color color3 #64786E;
+@define-color color4 #426359;
+@define-color color5 #50494A;
+@define-color color6 #3A9479;
+@define-color color7 #B27789;
+@define-color color8 #7C5360;
+@define-color color9 #9E7F89;
+@define-color color10 #53967C;
+@define-color color11 #64786E;
+@define-color color12 #426359;
+@define-color color13 #50494A;
+@define-color color14 #3A9479;
+@define-color color15 #B27789;
 
 * {
     font-family: JetBrains Mono Nerd Font;

@@ -68,9 +68,6 @@ waybar_theme_default.target = '~/.config/waybar/style.css'
 waybar_theme_tri-islands.template = 'waybar/waybar_tri-islands.css'
 waybar_theme_tri-islands.target = '~/.config/waybar/themes/tri-islands/style.css'
 
-waybar_theme_center.template = 'waybar/waybar_center.css'
-waybar_theme_center.target = '~/.config/waybar/themes/center/style.css'
-
 [hooks]
 hypr-reload = 'hyprctl reload'
 swaync-reload = 'swaync-client --reload-config --reload-css'
