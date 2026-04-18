@@ -1,36 +1,36 @@
 window {
-    background-color: #1F1F1F;
-    color: #CFA6B2;
+    background-color: #160000;
+    color: #F1B2BC;
 }
 
 window:backdrop {
-    background-color: #1F1F1F;
-    color: #CFA6B2;
+    background-color: #160000;
+    color: #F1B2BC;
 }
 
 scrollbar {
-    background-color: #7C5360;
+    background-color: #9E6069;
 }
 
 scrollbar slider {
-    background-color: #393939;
+    background-color: #2E1819;
     border-radius: 4px;
 }
 
 scrollbar slider:hover {
-    background-color: #426359;
+    background-color: #4D807C;
 }
 
 button {
-    background: #1F1F1F;
-    color: #CFA6B2;
+    background: #160000;
+    color: #F1B2BC;
     border: none;
     box-shadow: none;
 }
 
 entry {
-    background-color: #393939;
-    color: #CFA6B2;
+    background-color: #2E1819;
+    color: #F1B2BC;
     border: none;
 }
 
@@ -42,8 +42,8 @@ button:active,
 button:backdrop,
 button:focus:backdrop,
 button:checked:backdrop {
-    background: #1F1F1F;
-    color: #CFA6B2;
+    background: #160000;
+    color: #F1B2BC;
     border: none;
     box-shadow: none;
     outline: none;

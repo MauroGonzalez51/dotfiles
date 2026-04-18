@@ -3,14 +3,14 @@
   box-shadow: none;
   font-family: "JetBrains Mono Nerd Font", monospace;
   font-size: 12.5px;
-  color: #CFA6B2;
+  color: #F1B2BC;
 }
 
 #waybar {
   margin-top: 14px;
-  background: rgba(31,31,31, 0.8);
+  background: rgba(22,0,0, 0.8);
   border-radius: 12px;
-  border: 2px solid #64786E;
+  border: 2px solid #379793;
   min-height: 0;
 }
 
@@ -30,27 +30,27 @@
 }
 
 #workspaces button.active {
-  background-color: #64786E;
+  background-color: #379793;
 }
 
 #workspaces button.active * {
-  color: #1F1F1F;
+  color: #160000;
 }
 
 #workspaces button.urgent * {
-  color: #1F1F1F;
-  background-color: #9E7F89;
+  color: #160000;
+  background-color: #48F1E5;
 }
 
 #tray {
   margin: 3px 2px;
   border-radius: 12px;
-  background-color: rgba(57,57,57, 0.4);
+  background-color: rgba(46,24,25, 0.4);
 }
 
 #tray * {
   padding: 0 6px;
-  border-left: 1px solid #393939;
+  border-left: 1px solid #2E1819;
 }
 
 #tray *:first-child {
@@ -99,7 +99,7 @@
   padding: 0 12px;
   min-width: 28px;
   min-height: 22px;
-  background-color: #64786E;
+  background-color: #379793;
   border-radius: 8px;
   min-width: 15px;
 }
@@ -111,16 +111,16 @@
 }
 
 #custom-notifications {
-    color: #CFA6B2;
+    color: #F1B2BC;
     font-size: 12px;
 }
 
 #custom-notifications:hover {
-    color: #64786E;
+    color: #379793;
 }
 
 #temperature.critical {
-  color: #64786E;
+  color: #379793;
 }
 
 #temperature {
