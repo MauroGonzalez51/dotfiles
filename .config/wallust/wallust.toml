@@ -68,7 +68,11 @@ waybar_theme_default.target = '~/.config/waybar/style.css'
 waybar_theme_tri-islands.template = 'waybar/waybar_tri-islands.css'
 waybar_theme_tri-islands.target = '~/.config/waybar/themes/tri-islands/style.css'
 
+posh.template = "posh-colors.json"
+posh.target = "~/.local/share/oh-my-posh/themes/palette.json"
+
 [hooks]
 hypr-reload = 'hyprctl reload'
 swaync-reload = 'swaync-client --reload-config --reload-css'
 waybar-reload = "~/.local/bin/waybar-theme --reload"
+oh-my-posh-reload = 'jq -s ".[0].palette = .[1] | .[0]" ~/.config/wallust/templates/posh-theme.json ~/.local/share/oh-my-posh/themes/palette.json > ~/.local/share/oh-my-posh/themes/theme.omp.json'

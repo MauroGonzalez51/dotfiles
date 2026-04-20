@@ -1,0 +1,101 @@
+{
+  "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+  "palette": {
+    "color1": "#5E9273",
+    "color2": "#A56A4F",
+    "color3": "#937171",
+    "color4": "#6C7F64",
+    "color5": "#80624A",
+    "color6": "#BB7561",
+    "color7": "#A2C4CD",
+    "color8": "#72898F",
+    "color9": "#5E9273",
+    "color10": "#A56A4F",
+    "color11": "#937171",
+    "color12": "#6C7F64",
+    "color13": "#80624A",
+    "color14": "#BB7561",
+    "color15": "#A2C4CD",
+    "background": "#1F1B1D",
+    "foreground": "#C4DBE2"
+  },
+  "blocks": [
+    {
+      "alignment": "left",
+      "segments": [
+        {
+          "foreground": "p:color3",
+          "style": "plain",
+          "template": "<p:color3>┏[</>{{ .UserName }}<p:color3>]</>",
+          "type": "session"
+        },
+        {
+          "foreground": "p:color8",
+          "options": {
+            "fetch_status": true,
+            "fetch_upstream_icon": true
+          },
+          "style": "plain",
+          "template": "<p:color4>--[</>{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}<p:color14> ● </>{{ end }}{{ if .Staging.Changed }}<p:color6> ● </>{{ end }}<p:color4>]</>",
+          "type": "git"
+        },
+        {
+          "foreground": "p:color5",
+          "style": "plain",
+          "template": "<p:color4>--[</>{{.Profile}}{{if .Region}}@{{.Region}}{{end}}<p:color4>]</>",
+          "type": "aws"
+        },
+        {
+          "foreground": "p:color5",
+          "style": "plain",
+          "template": "<p:color4>--[</>{{.Context}}{{if .Namespace}} :: {{.Namespace}}{{end}}<p:color4>]</>",
+          "type": "kubectl"
+        },
+        {
+          "foreground": "p:foreground",
+          "style": "plain",
+          "template": "<p:color4>[</><p:color4>]</>",
+          "type": "root"
+        },
+        {
+          "foreground": "p:foreground",
+          "style": "plain",
+          "template": "<p:color1>[x</>{{ reason .Code }}<p:color1>]</>",
+          "type": "status"
+        }
+      ],
+      "type": "prompt"
+    },
+    {
+      "alignment": "left",
+      "newline": true,
+      "segments": [
+        {
+          "foreground": "p:color3",
+          "options": {
+            "style": "full"
+          },
+          "style": "plain",
+          "template": "<p:color3>┖[</>{{ .Path }}<p:color3>]</>",
+          "type": "path"
+        }
+      ],
+      "type": "prompt"
+    },
+    {
+      "alignment": "left",
+      "newline": true,
+      "segments": [
+        {
+          "foreground": "p:color10",
+          "style": "plain",
+          "template": "  ",
+          "type": "text"
+        }
+      ],
+      "type": "prompt"
+    }
+  ],
+  "final_space": true,
+  "version": 4
+}
