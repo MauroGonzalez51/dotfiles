@@ -4,7 +4,7 @@
     "height": 32,
     "passthrough": false,
     "reload_style_on_change": true,
-    "margin": "4, 8, 2, 8",
+    "margin": "4, 8, 0, 8",
     "modules-left": [
         "hyprland/workspaces",
         "cpu",
