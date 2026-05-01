@@ -5,6 +5,7 @@ import tempfile
 from pathlib import Path
 from typing import Set
 import argparse
+import time
 
 
 def extract_frame(path: Path) -> Path:
@@ -88,7 +89,14 @@ def apply_wallpaper(path: Path) -> None:
         return
 
     subprocess.run(["pkill", "-x", "mpvpaper"], capture_output=True)
-    subprocess.run(["awww-daemon"])
+    subprocess.Popen(
+        ["awww-daemon"],
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+        start_new_session=True,
+    )
+
+    time.sleep(0.2)
     subprocess.run(["awww", "img", str(path.absolute())])
     subprocess.run(["wallust", "run", str(path.absolute())])
 
