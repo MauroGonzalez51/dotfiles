@@ -12,6 +12,7 @@ import sys
 STATE_FILE = "theme-state.json"
 CONFIG_FILES = ("config.jsonc", "config.json")
 STYLE_FILES = ("style.css", "styles.css")
+JOURNALCTL_IDENTIFIER = "waybar"
 
 
 @dataclass
@@ -36,19 +37,19 @@ def is_waybar_running() -> bool:
 
 
 def exec_waybar(config_path: Path, style_path: Path) -> None:
+    cmd: List[str] = [
+        "systemd-cat",
+        f"--identifier={JOURNALCTL_IDENTIFIER}",
+        "waybar",
+        "--config",
+        str(config_path.absolute()),
+        "--style",
+        str(style_path.absolute()),
+    ]
+
     subprocess.Popen(
-        [
-            "waybar",
-            "--config",
-            str(config_path.absolute()),
-            "--style",
-            str(style_path.absolute()),
-        ],
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
-        stdin=subprocess.DEVNULL,
+        cmd,
         start_new_session=True,
-        close_fds=True,
     )
 
 
