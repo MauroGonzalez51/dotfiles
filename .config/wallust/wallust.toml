@@ -71,6 +71,9 @@ waybar_theme_tri-islands.target = '~/.config/waybar/themes/tri-islands/style.css
 posh.template = "posh-colors.json"
 posh.target = "~/.local/share/oh-my-posh/themes/palette.json"
 
+qt.template = "qt-colors.json"
+qt.target = "~/.config/wallust/colorscheme.json"
+
 [hooks]
 hypr-reload = 'hyprctl reload'
 swaync-reload = 'swaync-client --reload-config --reload-css'

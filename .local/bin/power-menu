@@ -4,6 +4,7 @@ import enum
 import subprocess
 from dataclasses import dataclass
 from typing import List
+import os
 
 
 @dataclass
@@ -22,7 +23,14 @@ class PowerActions(enum.Enum):
         label="Suspend",
         command=["systemctl", "suspend"],
     )
-    LOCK = PowerOption(label="Lock", command=["hyprlock"])
+    LOCK = PowerOption(
+        label="Lock",
+        command=[
+            "quickshell",
+            "-p",
+            os.path.expanduser("~/.local/bin/quickshell/Lock.qml"),
+        ],
+    )
     LOGOUT = PowerOption(
         label="Logout",
         command=["hyprctl", "dispatch", "exit"],
