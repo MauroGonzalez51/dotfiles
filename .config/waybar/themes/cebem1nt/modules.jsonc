@@ -117,7 +117,7 @@
         "format-ethernet": "",
         "tooltip-format": "{essid}\n\nFrequency: {frequency}GHz\nStrength: {signalStrength}%\n\n{bandwidthUpBytes}   {bandwidthDownBytes}",
         "menu": "on-click-right",
-        "menu-file": "~/.config/waybar/context/network.xml",
+        "menu-file": "~/.config/waybar/themes/cebem1nt/context/network.xml",
         "menu-actions": {
             "action-1": "nmcli radio wifi off",
             "action-2": "nmcli radio wifi on",
@@ -156,9 +156,9 @@
 
     "clock": {
         "timezone": "America/Bogota",
-        "tooltip-format": "<tt><small>{calendar}</small></tt>",
+        "format": "{:%I:%M %p}",
         "format-alt": "{:%H:%M %d %B %Y}",
-        "on-click-right": "hyprctl dispatch exec 'kitty --class=peaclock -e peaclock'",
+        "tooltip-format": "<tt><small>{calendar}</small></tt>",
         "calendar": {
             "mode": "year",
             "weeks-pos": "right",
@@ -178,8 +178,7 @@
         "tooltip-format": "{album}",
         "format-paused": "\uf04c {artist} - {title}",
         "on-click": "playerctl play-pause",
-        "on-scroll-up": "playerctl previous",
-        "on-scroll-down": "playerctl next",
+        "on-click-right": "playerctl next",
         "max-length": 45
     },
 
@@ -195,17 +194,17 @@
 
     "custom/start": {
         "format": "",
-        "on-click": "~/.config/rofi/bin/drun &"
+        "on-click": "wofi --show drun --insensitive --allow-images --no-actions"
     },
 
     "custom/ctlcenter": {
         "tooltip": false,
-        "format": "",
+        "format": "\uf0f3",
         "on-click": "swaync-client -t",
         "menu": "on-click-right",
-        "menu-file": "~/.config/waybar/context/ctlcenter.xml",
+        "menu-file": "~/.config/waybar/themes/cebem1nt/context/ctlcenter.xml",
         "menu-actions": {
-            "action-1-1": "hyprctl dispatch exec '[float] alacritty -e htop'",
+            "action-1-1": "hyprctl dispatch exec '[float] kitty -e btop'",
             "action-1-2": "hyprctl dispatch exec '[float] alacritty -e nvtop'",
             "action-1-3": "hyprctl dispatch exec '[float] alacritty -e pkexec powertop'",
             "action-1-4": "hyprctl dispatch exec '[float] missioncenter'",

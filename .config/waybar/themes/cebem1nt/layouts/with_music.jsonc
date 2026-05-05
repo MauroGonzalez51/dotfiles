@@ -2,16 +2,12 @@
     "layer": "top",
     "position": "top",
     "width": 1910,
-    "height": 25,
-    "margin": "5 0",
+    "height": 28,
+    "margin": "4, 8, 0, 8",
 
     "group/left": {
         "orientation": "horizontal",
-        "modules": [
-            "hyprland/workspaces",
-            //            "niri/workspaces",
-            "mpris"
-        ]
+        "modules": ["hyprland/workspaces", "mpris"]
     },
 
     "group/left-hidden": {
@@ -59,7 +55,5 @@
     "modules-center": ["clock"],
     "modules-right": ["group/right", "group/right-hidden-top"],
 
-    "include": [
-        "~/.config/waybar/themes/cebem1nt/modules.jsonc"
-    ]
+    "include": ["~/.config/waybar/themes/cebem1nt/modules.jsonc"]
 }

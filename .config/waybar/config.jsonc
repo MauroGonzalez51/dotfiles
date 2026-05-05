@@ -106,13 +106,9 @@
     },
 
     "mpris": {
-        "format": "{status_icon} {artist} - {title}",
-        "status-icons": {
-            "playing": "\uf04b",
-            "paused": "\uf04c",
-            "stopped": "\uf04d"
-        },
-        "tooltip-format": "{player}: {title}",
+        "format": "{artist} - {title}",
+        "tooltip-format": "{album}",
+        "format-paused": "\uf04c {artist} - {title}",
         "title-len": 32
     },
 
@@ -165,7 +161,7 @@
 
     "pulseaudio": {
         "format": "{icon} {volume}% {format_source}",
-        "format-bluetooth": "{icon}\udb80\udcaf {volume}% {format_source}",
+        "format-bluetooth": "{icon} \udb80\udcaf {volume}% {format_source}",
         "format-bluetooth-muted": "\udb80\udf6c {format_source}",
         "format-muted": "\ueee8  {format_source}",
         "format-source": "\udb80\udf6c {volume}%",
@@ -175,7 +171,7 @@
             "headset": "\udb80\udece",
             "phone": "\uf10b",
             "car": "\uf1b9",
-            "default": ["\uf028", "\uf027"]
+            "default": ["\uf027", "\uf028"]
         },
         "on-click": "pavucontrol"
     },
@@ -207,7 +203,19 @@
         "interval": 1,
         "format": "{:%I:%M %p}",
         "format-alt": "\uf133 {:%a,%b %d}",
-        "tooltip-format": "{calendar}"
+        "tooltip-format": "{calendar}",
+        "calendar": {
+            "mode": "year",
+            "weeks-pos": "right",
+            "mode-mon-col": 3,
+            "format": {
+                "months": "<span color='#acb0d0'><b>{}</b></span>",
+                "days": "<span color='#acb0d0'><b>{}</b></span>",
+                "weeks": "<span color='#7aa2f7'><b>W{}</b></span>",
+                "weekdays": "<span color='#e0af68'><b>{}</b></span>",
+                "today": "<span color='#41a6b5'><b><u>{}</u></b></span>"
+            }
+        }
     },
 
     "custom/power": {

@@ -1,5 +1,5 @@
 {
-  "theme": "cebem1nt",
-  "config_path": "/home/arch/.config/waybar/themes/cebem1nt/config.jsonc",
-  "style_path": "/home/arch/.config/waybar/themes/cebem1nt/style.css"
+  "theme": "Default",
+  "config_path": "/home/arch/.config/waybar/config.jsonc",
+  "style_path": "/home/arch/.config/waybar/style.css"
 }

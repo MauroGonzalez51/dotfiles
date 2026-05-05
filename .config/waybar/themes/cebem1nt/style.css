@@ -64,19 +64,29 @@
 #left,
 #right-hidden-top,
 #left-hidden-top {
-    padding: 2px 10px;
+    padding: 2px 0;
     border-radius: 15px;
     background: @module-bg;
 }
 
+#left-hidden {
+    padding: 0;
+    margin-left: 10px;
+}
+
+#right-hidden {
+    padding: 0;
+    margin-right: 10px;
+}
+
 #right-hidden-top,
 #left-hidden-top {
-    padding: 0 12px;
+    padding: 0 10px;
 }
 
 #right,
 #left {
-    margin: 0 8px;
+    margin: 0 10px;
 }
 
 #clock {
