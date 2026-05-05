@@ -4,7 +4,7 @@ import Quickshell.Io
 import "WindowRegistry.js" as LayoutMath 
 
 Item {
-    id: root
+    id: scaler_root
     visible: false
 
     property real currentWidth: 1920.0
@@ -13,7 +13,7 @@ Item {
 
     property real baseScale: LayoutMath.getScale(currentWidth, currentHeight, uiScale)
     
-    function s(val) { 
-        return LayoutMath.s(val, baseScale); 
+    function s(value) { 
+        return LayoutMath.s(value, baseScale); 
     }
 }

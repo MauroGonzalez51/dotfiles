@@ -13,155 +13,158 @@ import Quickshell.Wayland
 ShellRoot {
     id: root
 
-    readonly property color color0: _theme.palette[0]
-    readonly property color color1: _theme.palette[1]
-    readonly property color color2: _theme.palette[2]
-    readonly property color color3: _theme.palette[3]
-    readonly property color color4: _theme.palette[4]
-    readonly property color color5: _theme.palette[5]
-    readonly property color color6: _theme.palette[6]
-    readonly property color color7: _theme.palette[7]
-    readonly property color color8: _theme.palette[8]
-    readonly property color color9: _theme.palette[9]
-    readonly property color color10: _theme.palette[10]
-    readonly property color color11: _theme.palette[11]
-    readonly property color color12: _theme.palette[12]
-    readonly property color color13: _theme.palette[13]
-    readonly property color color14: _theme.palette[14]
-    readonly property color color15: _theme.palette[15]
-    readonly property color base: _theme.background
-    readonly property color text: _theme.text
+    readonly property color color0: theme.palette[0]
+    readonly property color color1: theme.palette[1]
+    readonly property color color2: theme.palette[2]
+    readonly property color color3: theme.palette[3]
+    readonly property color color4: theme.palette[4]
+    readonly property color color5: theme.palette[5]
+    readonly property color color6: theme.palette[6]
+    readonly property color color7: theme.palette[7]
+    readonly property color color8: theme.palette[8]
+    readonly property color color9: theme.palette[9]
+    readonly property color color10: theme.palette[10]
+    readonly property color color11: theme.palette[11]
+    readonly property color color12: theme.palette[12]
+    readonly property color color13: theme.palette[13]
+    readonly property color color14: theme.palette[14]
+    readonly property color color15: theme.palette[15]
+    readonly property color base: theme.background
+    readonly property color text: theme.text
 
     Colors {
-        id: _theme
+        id: theme
     }
 
     // Session Settings (Changed from Settings to QtObject to fix the Qt 6.11 initialization error)
     QtObject {
-        id: lockSettings
+        id: lock_settings
 
-        property bool hidePassword: true
-        property int revealDuration: 300
+        property bool hide_password: true
+        property int reveal_duration: 300
     }
 
     // Shared state across all monitors
     QtObject {
-        id: lockUI
+        id: lock_ui
 
         property bool failed: false
         property bool authenticating: false
-        property string statusText: "Locked"
+        property string status_text: "Locked"
     }
 
     // Timer to safely decouple PAM execution from the main QML event loop
     Timer {
-        id: pamActionTimer
+        id: pam_action_timer
 
         interval: 50
-        onTriggered: pam.start()
+        onTriggered: pam_context.start()
     }
 
     // System Authentication hook
     PamContext {
-        id: pam
+        id: pam_context
 
         // Defer start until after component initialization to prevent memory segfaults
-        Component.onCompleted: pamActionTimer.start()
+        Component.onCompleted: pam_action_timer.start()
         onCompleted: (result) => {
-            lockUI.authenticating = false;
+            lock_ui.authenticating = false;
             if (result === PamResult.Success) {
-                rootLock.locked = false;
+                root_lock.locked = false;
                 Qt.quit();
             } else {
-                lockUI.failed = true;
-                lockUI.statusText = "Access Denied";
+                lock_ui.failed = true;
+                lock_ui.status_text = "Access Denied";
                 // Defer the restart to prevent a recursive crash loop
-                pamActionTimer.start();
+                pam_action_timer.start();
             }
         }
     }
 
     Process {
-        id: suspendProcess
+        id: suspend_process
 
         command: ["systemctl", "suspend"]
     }
 
     Process {
-        id: poweroffProcess
+        id: poweroff_process
 
         command: ["systemctl", "poweroff"]
     }
 
     Process {
-        id: reloadProcess
+        id: reload_process
 
         command: ["systemctl", "reboot"]
     }
 
     WlSessionLock {
-        id: rootLock
+        id: root_lock
 
         locked: true
 
         WlSessionLockSurface {
-            id: surface
+            id: lock_surface
 
             Item {
-                id: screenRoot
+                id: screen_root
 
-                readonly property real sc: scaler.baseScale
-                property string staticWallpaperPath: "file:///tmp/lock_bg.png"
-                property string batPct: "100"
-                property string batStatus: "AC"
-                property string currentUser: "User"
-                property string faceIconPath: ""
-                property string kbLayout: "US"
-                property string weatherIcon: ""
-                property string weatherTemp: "--°C"
-                property real introState: 0
-                property bool powerMenuOpen: false
-                property bool inputActive: false
-                property bool isPlayingIntro: true
-                property bool isDesktop: false
-                property real globalOrbitAngle: 0
+                readonly property real sc: ui_scaler.baseScale
+                property string static_wallpaper_path: "file:///tmp/lock_bg.png"
+                property string bat_pct: "100"
+                property string bat_status: "AC"
+                property string current_user: "User"
+                property string face_icon_path: ""
+                property string kb_layout: "US"
+                property string weather_icon: ""
+                property string weather_temp: "--°C"
+                property real intro_state: 0
+                property bool power_menu_open: false
+                property bool input_active: false
+                property bool is_playing_intro: true
+                property bool is_desktop: false
+                property real global_orbit_angle: 0
 
                 anchors.fill: parent
                 Component.onCompleted: {
-                    introSequence.start();
+                    intro_sequence.start();
                 }
 
                 Scaler {
-                    id: scaler
+                    id: ui_scaler
 
-                    currentWidth: screenRoot.width > 0 ? screenRoot.width : Screen.width
+                    currentWidth: {
+                        if (screen_root.width > 0) return screen_root.width;
+                        return Screen.width;
+                    }
                 }
 
                 Timer {
-                    id: idleTimer
+                    id: idle_timer
 
                     interval: 15000
-                    running: screenRoot.inputActive && inputField.text.length === 0
+                    running: screen_root.input_active && input_field.text.length === 0
                     repeat: false
-                    onTriggered: screenRoot.inputActive = false
+                    onTriggered: screen_root.input_active = false
                 }
 
                 Process {
-                    id: chassisDetector
+                    id: chassis_detector
 
                     running: true
                     command: ["bash", "-c", "if ls /sys/class/power_supply/BAT* 1> /dev/null 2>&1; then echo 'laptop'; else echo 'desktop'; fi"]
 
                     stdout: StdioCollector {
                         onStreamFinished: {
-                            screenRoot.isDesktop = (this.text.trim() === "desktop");
+                            screen_root.is_desktop = (this.text.trim() === "desktop");
                         }
                     }
 
                 }
 
                 Process {
-                    id: userPoller
+                    id: user_poller
 
                     command: ["bash", "-c", "USER_VAR=$(whoami); ICON_PATH=\"\"; if [ -f ~/.face.icon ]; then ICON_PATH=$(readlink -f ~/.face.icon); elif [ -f ~/.face ]; then ICON_PATH=$(readlink -f ~/.face); fi; echo -n \"$USER_VAR|$ICON_PATH\""]
                     Component.onCompleted: running = true
@@ -170,11 +173,15 @@ ShellRoot {
                         onStreamFinished: {
                             let parts = this.text.trim().split("|");
                             if (parts.length > 0 && parts[0] !== "")
-                                screenRoot.currentUser = parts[0];
+                                screen_root.current_user = parts[0];
 
                             if (parts.length > 1 && parts[1].trim() !== "") {
                                 let path = parts[1].trim();
-                                screenRoot.faceIconPath = path.startsWith("file://") ? path : "file://" + path;
+                                if (path.startsWith("file://")) {
+                                    screen_root.face_icon_path = path;
+                                } else {
+                                    screen_root.face_icon_path = "file://" + path;
+                                }
                             }
                         }
                     }
@@ -182,7 +189,7 @@ ShellRoot {
                 }
 
                 Process {
-                    id: kbPoller
+                    id: kb_poller
 
                     command: ["bash", "-c", "hyprctl devices -j | jq -r '.keyboards[] | select(.main == true) | .active_keymap' | head -n1 | cut -c1-2 | tr '[:lower:]' '[:upper:]'"]
 
@@ -190,7 +197,7 @@ ShellRoot {
                         onStreamFinished: {
                             let layout = this.text.trim();
                             if (layout !== "" && layout !== "null")
-                                screenRoot.kbLayout = layout;
+                                screen_root.kb_layout = layout;
 
                         }
                     }
@@ -202,21 +209,21 @@ ShellRoot {
                     running: true
                     repeat: true
                     triggeredOnStart: true
-                    onTriggered: kbPoller.running = true
+                    onTriggered: kb_poller.running = true
                 }
 
                 Process {
-                    id: batPoller
+                    id: bat_poller
 
-                    running: !screenRoot.isDesktop
+                    running: !screen_root.is_desktop
                     command: ["bash", "-c", "cat /sys/class/power_supply/BAT*/capacity 2>/dev/null | head -n1 || echo '100'; cat /sys/class/power_supply/BAT*/status 2>/dev/null | head -n1 || echo 'AC'"]
 
                     stdout: StdioCollector {
                         onStreamFinished: {
                             let lines = this.text.trim().split("\n");
                             if (lines.length >= 2) {
-                                screenRoot.batPct = lines[0] || "100";
-                                screenRoot.batStatus = lines[1] || "Unknown";
+                                screen_root.bat_pct = lines[0] || "100";
+                                screen_root.bat_status = lines[1] || "Unknown";
                             }
                         }
                     }
@@ -225,10 +232,10 @@ ShellRoot {
 
                 Timer {
                     interval: 5000
-                    running: !screenRoot.isDesktop
+                    running: !screen_root.is_desktop
                     repeat: true
                     triggeredOnStart: true
-                    onTriggered: batPoller.running = true
+                    onTriggered: bat_poller.running = true
                 }
 
                 Timer {
@@ -236,19 +243,20 @@ ShellRoot {
                     running: true
                     repeat: true
                     triggeredOnStart: true
-                    onTriggered: weatherPoller.running = true
+                    onTriggered: weather_poller.running = true
                 }
 
                 Rectangle {
+                    // [CHANGE WALLPAPER]
                     anchors.fill: parent
                     color: root.base
                 }
 
                 Image {
-                    id: bgWallpaper
+                    id: bg_wallpaper
 
                     anchors.fill: parent
-                    source: screenRoot.staticWallpaperPath
+                    source: screen_root.static_wallpaper_path
                     fillMode: Image.PreserveAspectCrop
                     asynchronous: true
                     visible: false
@@ -256,19 +264,20 @@ ShellRoot {
                 }
 
                 MultiEffect {
-                    source: bgWallpaper
-                    anchors.fill: bgWallpaper
+                    source: bg_wallpaper
+                    anchors.fill: bg_wallpaper
                     blurEnabled: true
-                    blurMax: 64 * screenRoot.sc
+                    blurMax: 64 * screen_root.sc
                     blur: 1
                 }
 
                 Rectangle {
-                    id: dimmer
+                    id: dimmer_rect
 
                     anchors.fill: parent
-                    color: "black"
-                    opacity: 0.25
+                    // [CHANGE-COLOR]
+                    color: root.color0
+                    opacity: 0.2
                 }
 
                 Item {
@@ -278,11 +287,16 @@ ShellRoot {
                         width: parent.width * 0.8
                         height: width
                         radius: width / 2
-                        x: (parent.width / 2 - width / 2) + Math.cos(screenRoot.globalOrbitAngle * 2) * (200 * screenRoot.sc)
-                        y: (parent.height / 2 - height / 2) + Math.sin(screenRoot.globalOrbitAngle * 2) * (150 * screenRoot.sc)
-                        scale: 1 + Math.sin(screenRoot.globalOrbitAngle * 6) * 0.05
-                        opacity: screenRoot.inputActive ? 0.04 : 0.08
-                        color: root.color5
+                        x: (parent.width / 2 - width / 2) + Math.cos(screen_root.global_orbit_angle * 2) * (200 * screen_root.sc)
+                        y: (parent.height / 2 - height / 2) + Math.sin(screen_root.global_orbit_angle * 2) * (150 * screen_root.sc)
+                        scale: 1 + Math.sin(screen_root.global_orbit_angle * 6) * 0.05
+                        // [OPACITY]
+                        opacity: {
+                            if (screen_root.input_active) return 0.15;
+                            return 0.30;
+                        }
+                        // [CHANGE-COLOR]
+                        color: root.color6
 
                         Behavior on color {
                             ColorAnimation {
@@ -304,10 +318,15 @@ ShellRoot {
                         width: parent.width * 0.9
                         height: width
                         radius: width / 2
-                        x: (parent.width / 2 - width / 2) + Math.sin(screenRoot.globalOrbitAngle * 1.5) * (-200 * screenRoot.sc)
-                        y: (parent.height / 2 - height / 2) + Math.cos(screenRoot.globalOrbitAngle * 1.5) * (-150 * screenRoot.sc)
-                        scale: 1 + Math.cos(screenRoot.globalOrbitAngle * 5) * 0.05
-                        opacity: screenRoot.inputActive ? 0.03 : 0.06
+                        x: (parent.width / 2 - width / 2) + Math.sin(screen_root.global_orbit_angle * 1.5) * (-200 * screen_root.sc)
+                        y: (parent.height / 2 - height / 2) + Math.cos(screen_root.global_orbit_angle * 1.5) * (-150 * screen_root.sc)
+                        scale: 1 + Math.cos(screen_root.global_orbit_angle * 5) * 0.05
+                        // [CHANGE-OPACITY]
+                        opacity: {
+                            if (screen_root.input_active) return 0.10;
+                            return 0.25;
+                        }
+                        // [CHANGE-COLOR]
                         color: root.color4
 
                         Behavior on color {
@@ -328,22 +347,29 @@ ShellRoot {
 
                     Item {
                         anchors.fill: parent
-                        opacity: screenRoot.introState
-                        scale: 1.1 - (0.1 * screenRoot.introState)
+                        opacity: screen_root.intro_state
+                        scale: 1.1 - (0.1 * screen_root.intro_state)
 
                         Repeater {
                             model: 4
 
                             Rectangle {
                                 anchors.centerIn: parent
-                                anchors.verticalCenterOffset: -40 * screenRoot.sc
-                                width: (400 * screenRoot.sc) + (index * (220 * screenRoot.sc))
+                                anchors.verticalCenterOffset: -40 * screen_root.sc
+                                width: (400 * screen_root.sc) + (index * (220 * screen_root.sc))
                                 height: width
                                 radius: width / 2
                                 color: "transparent"
-                                border.color: lockUI.failed ? root.color1 : root.text
-                                border.width: Math.max(1, 1 * screenRoot.sc)
-                                opacity: lockUI.failed ? (0.1 - (index * 0.02)) : (screenRoot.inputActive ? (0.02 - (index * 0.005)) : (0.04 - (index * 0.01)))
+                                border.color: {
+                                    if (lock_ui.failed) return root.color1;
+                                    return root.text;
+                                }
+                                border.width: Math.max(1, 1 * screen_root.sc)
+                                opacity: {
+                                    if (lock_ui.failed) return 0.1 - (index * 0.02);
+                                    if (screen_root.input_active) return 0.02 - (index * 0.005);
+                                    return 0.04 - (index * 0.01);
+                                }
 
                                 Behavior on border.color {
                                     ColorAnimation {
@@ -371,30 +397,39 @@ ShellRoot {
 
                 MouseArea {
                     anchors.fill: parent
-                    enabled: !screenRoot.isPlayingIntro
+                    enabled: !screen_root.is_playing_intro
                     onClicked: {
-                        if (screenRoot.powerMenuOpen)
-                            screenRoot.powerMenuOpen = false;
+                        if (screen_root.power_menu_open)
+                            screen_root.power_menu_open = false;
 
-                        if (!screenRoot.inputActive)
-                            screenRoot.inputActive = true;
+                        if (!screen_root.input_active)
+                            screen_root.input_active = true;
 
-                        inputField.forceActiveFocus();
+                        input_field.forceActiveFocus();
                     }
                 }
 
                 Item {
                     anchors.fill: parent
-                    opacity: screenRoot.introState
+                    opacity: screen_root.intro_state
 
                     ColumnLayout {
-                        id: clockModule
+                        id: clock_module
 
                         anchors.centerIn: parent
-                        anchors.verticalCenterOffset: screenRoot.inputActive ? (-120 * screenRoot.sc) : (-40 * screenRoot.sc)
-                        spacing: -10 * screenRoot.sc
-                        opacity: screenRoot.inputActive ? 0 : 1
-                        scale: screenRoot.inputActive ? 0.9 : 1
+                        anchors.verticalCenterOffset: {
+                            if (screen_root.input_active) return -120 * screen_root.sc;
+                            return -40 * screen_root.sc;
+                        }
+                        spacing: -10 * screen_root.sc
+                        opacity: {
+                            if (screen_root.input_active) return 0;
+                            return 1;
+                        }
+                        scale: {
+                            if (screen_root.input_active) return 0.9;
+                            return 1;
+                        }
                         visible: opacity > 0.01
 
                         RowLayout {
@@ -402,10 +437,10 @@ ShellRoot {
                             spacing: 0
 
                             Text {
-                                id: clockHours
+                                id: clock_hours
 
                                 font.family: "JetBrains Mono Nerd Font"
-                                font.pixelSize: 140 * screenRoot.sc
+                                font.pixelSize: 140 * screen_root.sc
                                 font.weight: Font.Bold
                                 color: root.text
 
@@ -421,7 +456,7 @@ ShellRoot {
                             Text {
                                 text: ":"
                                 font.family: "JetBrains Mono Nerd Font"
-                                font.pixelSize: 140 * screenRoot.sc
+                                font.pixelSize: 140 * screen_root.sc
                                 font.weight: Font.Bold
                                 opacity: 0.5
                                 color: root.text
@@ -436,10 +471,10 @@ ShellRoot {
                             }
 
                             Text {
-                                id: clockMinutes
+                                id: clock_minutes
 
                                 font.family: "JetBrains Mono Nerd Font"
-                                font.pixelSize: 140 * screenRoot.sc
+                                font.pixelSize: 140 * screen_root.sc
                                 font.weight: Font.Bold
                                 color: root.text
 
@@ -455,11 +490,11 @@ ShellRoot {
                         }
 
                         Text {
-                            id: dateText
+                            id: date_text
 
                             Layout.alignment: Qt.AlignHCenter
                             font.family: "JetBrains Mono Nerd Font"
-                            font.pixelSize: 22 * screenRoot.sc
+                            font.pixelSize: 22 * screen_root.sc
                             font.weight: Font.Bold
                             color: root.text
                         }
@@ -471,9 +506,9 @@ ShellRoot {
                             triggeredOnStart: true
                             onTriggered: {
                                 let d = new Date();
-                                clockHours.text = Qt.formatDateTime(d, "hh");
-                                clockMinutes.text = Qt.formatDateTime(d, "mm");
-                                dateText.text = Qt.formatDateTime(d, "dddd, MMMM dd");
+                                clock_hours.text = Qt.formatDateTime(d, "hh");
+                                clock_minutes.text = Qt.formatDateTime(d, "mm");
+                                date_text.text = Qt.formatDateTime(d, "dddd, MMMM dd");
                             }
                         }
 
@@ -504,22 +539,31 @@ ShellRoot {
                     }
 
                     RowLayout {
-                        id: authModule
+                        id: auth_module
 
                         anchors.centerIn: parent
-                        anchors.verticalCenterOffset: screenRoot.inputActive ? (-40 * screenRoot.sc) : (40 * screenRoot.sc)
-                        spacing: 32 * screenRoot.sc
-                        opacity: screenRoot.inputActive ? 1 : 0
-                        scale: screenRoot.inputActive ? 1 : 0.9
+                        anchors.verticalCenterOffset: {
+                            if (screen_root.input_active) return -40 * screen_root.sc;
+                            return 40 * screen_root.sc;
+                        }
+                        spacing: 32 * screen_root.sc
+                        opacity: {
+                            if (screen_root.input_active) return 1;
+                            return 0;
+                        }
+                        scale: {
+                            if (screen_root.input_active) return 1;
+                            return 0.9;
+                        }
                         visible: opacity > 0.01
 
                         Item {
                             Layout.alignment: Qt.AlignVCenter
-                            width: 170 * screenRoot.sc
+                            width: 170 * screen_root.sc
                             height: width
 
                             Rectangle {
-                                id: avatarMask
+                                id: avatar_mask
 
                                 anchors.fill: parent
                                 radius: height / 2
@@ -532,23 +576,26 @@ ShellRoot {
                                 anchors.fill: parent
                                 radius: height / 2
                                 color: Qt.rgba(root.color10.r, root.color10.g, root.color10.b, 0.5)
-                                visible: avatarImg.status !== Image.Ready
+                                visible: avatar_img.status !== Image.Ready
 
                                 Text {
                                     anchors.centerIn: parent
                                     text: "󰄽"
                                     font.family: "Iosevka Nerd Font"
-                                    font.pixelSize: 64 * screenRoot.sc
+                                    font.pixelSize: 64 * screen_root.sc
                                     color: root.color7
                                 }
 
                             }
 
                             Image {
-                                id: avatarImg
+                                id: avatar_img
 
                                 anchors.fill: parent
-                                source: screenRoot.faceIconPath !== "" ? screenRoot.faceIconPath : ""
+                                source: {
+                                    if (screen_root.face_icon_path !== "") return screen_root.face_icon_path;
+                                    return "";
+                                }
                                 fillMode: Image.PreserveAspectCrop
                                 visible: false
                                 cache: false
@@ -556,19 +603,23 @@ ShellRoot {
                             }
 
                             MultiEffect {
-                                source: avatarImg
-                                anchors.fill: avatarImg
+                                source: avatar_img
+                                anchors.fill: avatar_img
                                 maskEnabled: true
-                                maskSource: avatarMask
-                                visible: avatarImg.status === Image.Ready
+                                maskSource: avatar_mask
+                                visible: avatar_img.status === Image.Ready
                             }
 
                             Rectangle {
                                 anchors.fill: parent
                                 radius: height / 2
                                 color: "transparent"
-                                border.color: lockUI.failed ? root.color1 : (lockUI.authenticating ? root.color3 : Qt.rgba(root.text.r, root.text.g, root.text.b, 0.5))
-                                border.width: Math.max(1, 3 * screenRoot.sc)
+                                border.color: {
+                                    if (lock_ui.failed) return root.color1;
+                                    if (lock_ui.authenticating) return root.color3;
+                                    return Qt.rgba(root.text.r, root.text.g, root.text.b, 0.5);
+                                }
+                                border.width: Math.max(1, 3 * screen_root.sc)
 
                                 Behavior on border.color {
                                     ColorAnimation {
@@ -583,35 +634,51 @@ ShellRoot {
 
                         ColumnLayout {
                             Layout.alignment: Qt.AlignVCenter
-                            spacing: 16 * screenRoot.sc
+                            spacing: 16 * screen_root.sc
 
                             Text {
                                 Layout.alignment: Qt.AlignLeft
-                                text: screenRoot.currentUser
+                                text: screen_root.current_user
                                 font.family: "JetBrains Mono Nerd Font"
-                                font.pixelSize: 28 * screenRoot.sc
+                                font.pixelSize: 28 * screen_root.sc
                                 font.weight: Font.Bold
                                 color: root.text
                             }
 
                             RowLayout {
                                 Layout.alignment: Qt.AlignLeft
-                                spacing: 12 * screenRoot.sc
+                                spacing: 12 * screen_root.sc
 
                                 Rectangle {
-                                    width: 36 * screenRoot.sc
+                                    width: 36 * screen_root.sc
                                     height: width
                                     radius: height / 2
-                                    color: lockUI.failed ? Qt.rgba(root.color1.r, root.color1.g, root.color1.b, 0.2) : (lockUI.authenticating ? Qt.rgba(root.color3.r, root.color3.g, root.color3.b, 0.2) : Qt.rgba(root.color5.r, root.color5.g, root.color5.b, 0.15))
-                                    border.color: lockUI.failed ? root.color1 : (lockUI.authenticating ? root.color3 : root.color5)
-                                    border.width: Math.max(1, 1 * screenRoot.sc)
+                                    color: {
+                                        if (lock_ui.failed) return Qt.rgba(root.color1.r, root.color1.g, root.color1.b, 0.2);
+                                        if (lock_ui.authenticating) return Qt.rgba(root.color3.r, root.color3.g, root.color3.b, 0.2);
+                                        return Qt.rgba(root.color5.r, root.color5.g, root.color5.b, 0.15);
+                                    }
+                                    border.color: {
+                                        if (lock_ui.failed) return root.color1;
+                                        if (lock_ui.authenticating) return root.color3;
+                                        return root.color5;
+                                    }
+                                    border.width: Math.max(1, 1 * screen_root.sc)
 
                                     Text {
                                         anchors.centerIn: parent
-                                        text: lockUI.failed ? "󰌾" : (lockUI.authenticating ? "󰌿" : "󰌾")
+                                        text: {
+                                            if (lock_ui.failed) return "󰌾";
+                                            if (lock_ui.authenticating) return "󰌿";
+                                            return "󰌾";
+                                        }
                                         font.family: "Iosevka Nerd Font"
-                                        font.pixelSize: 18 * screenRoot.sc
-                                        color: lockUI.failed ? root.color1 : (lockUI.authenticating ? root.color3 : root.color5)
+                                        font.pixelSize: 18 * screen_root.sc
+                                        color: {
+                                            if (lock_ui.failed) return root.color1;
+                                            if (lock_ui.authenticating) return root.color3;
+                                            return root.color5;
+                                        }
 
                                         Behavior on color {
                                             ColorAnimation {
@@ -640,11 +707,15 @@ ShellRoot {
 
                                 Text {
                                     font.family: "JetBrains Mono Nerd Font"
-                                    font.pixelSize: 14 * screenRoot.sc
+                                    font.pixelSize: 14 * screen_root.sc
                                     font.weight: Font.Medium
                                     font.letterSpacing: 2
-                                    color: lockUI.failed ? root.color1 : (lockUI.authenticating ? root.color3 : root.text)
-                                    text: lockUI.statusText.toUpperCase()
+                                    color: {
+                                                    if (lock_ui.failed) return root.color1;
+                                                    if (lock_ui.authenticating) return root.color3;
+                                                    return root.text;
+                                                }
+                                    text: lock_ui.status_text.toUpperCase()
 
                                     Behavior on color {
                                         ColorAnimation {
@@ -658,54 +729,61 @@ ShellRoot {
                             }
 
                             Rectangle {
-                                id: pinPill
+                                id: pin_pill
 
                                 Layout.alignment: Qt.AlignLeft
-                                width: 280 * screenRoot.sc
-                                height: 60 * screenRoot.sc
+                                width: 280 * screen_root.sc
+                                height: 60 * screen_root.sc
                                 radius: height / 2
                                 clip: true
-                                color: lockUI.failed ? Qt.rgba(root.color1.r, root.color1.g, root.color1.b, 0.1) : Qt.rgba(root.color10.r, root.color10.g, root.color10.b, 0.5)
-                                border.width: Math.max(1, 2 * screenRoot.sc)
+                                color: {
+                                    if (lock_ui.failed) return Qt.rgba(root.color1.r, root.color1.g, root.color1.b, 0.1);
+                                    return Qt.rgba(root.color10.r, root.color10.g, root.color10.b, 0.5);
+                                }
+                                border.width: Math.max(1, 2 * screen_root.sc)
                                 border.color: {
-                                    if (lockUI.failed)
+                                    if (lock_ui.failed)
                                         return root.color1;
 
-                                    if (lockUI.authenticating)
+                                    if (lock_ui.authenticating)
                                         return root.color3;
 
-                                    if (inputField.text.length > 0)
+                                    if (input_field.text.length > 0)
                                         return root.text;
 
                                     return Qt.rgba(root.text.r, root.text.g, root.text.b, 0.08);
                                 }
-                                scale: lockUI.failed ? 1.05 : (lockUI.authenticating ? 0.98 : 1)
+                                scale: {
+                                    if (lock_ui.failed) return 1.05;
+                                    if (lock_ui.authenticating) return 0.98;
+                                    return 1;
+                                }
 
                                 SequentialAnimation {
-                                    id: shakeAnim
+                                    id: shake_anim
 
                                     NumberAnimation {
-                                        target: shakeTranslate
+                                        target: shake_translate
                                         property: "x"
                                         from: 0
-                                        to: -8 * screenRoot.sc
+                                        to: -8 * screen_root.sc
                                         duration: 120
                                         easing.type: Easing.InOutSine
                                     }
 
                                     NumberAnimation {
-                                        target: shakeTranslate
+                                        target: shake_translate
                                         property: "x"
-                                        from: -8 * screenRoot.sc
-                                        to: 8 * screenRoot.sc
+                                        from: -8 * screen_root.sc
+                                        to: 8 * screen_root.sc
                                         duration: 120
                                         easing.type: Easing.InOutSine
                                     }
 
                                     NumberAnimation {
-                                        target: shakeTranslate
+                                        target: shake_translate
                                         property: "x"
-                                        from: 8 * screenRoot.sc
+                                        from: 8 * screen_root.sc
                                         to: 0
                                         duration: 120
                                         easing.type: Easing.InOutSine
@@ -715,128 +793,141 @@ ShellRoot {
 
                                 Connections {
                                     function onFailedChanged() {
-                                        if (lockUI.failed)
-                                            shakeAnim.restart();
+                                        if (lock_ui.failed)
+                                            shake_anim.restart();
 
                                     }
 
-                                    target: lockUI
+                                    target: lock_ui
                                 }
 
                                 TextInput {
-                                    id: inputField
+                                    id: input_field
 
-                                    property string oldText: ""
+                                    property string old_text: ""
 
                                     anchors.fill: parent
                                     opacity: 0
                                     echoMode: TextInput.Password
-                                    enabled: !screenRoot.isPlayingIntro
+                                    enabled: !screen_root.is_playing_intro
                                     Component.onCompleted: forceActiveFocus()
                                     onActiveFocusChanged: {
-                                        if (!activeFocus && !screenRoot.powerMenuOpen && !screenRoot.isPlayingIntro)
+                                        if (!activeFocus && !screen_root.power_menu_open && !screen_root.is_playing_intro)
                                             forceActiveFocus();
 
                                     }
                                     Keys.onPressed: (event) => {
                                         if (event.key === Qt.Key_Escape) {
-                                            screenRoot.inputActive = false;
+                                            screen_root.input_active = false;
                                             text = "";
-                                            passModel.clear();
+                                            pass_model.clear();
                                             event.accepted = true;
-                                        } else if (!screenRoot.inputActive) {
-                                            screenRoot.inputActive = true;
+                                        } else if (!screen_root.input_active) {
+                                            screen_root.input_active = true;
                                         }
                                     }
                                     onAccepted: {
-                                        if (text.length > 0 && pam.responseRequired && !lockUI.authenticating) {
-                                            lockUI.authenticating = true;
-                                            lockUI.statusText = "Authenticating...";
-                                            lockUI.failed = false;
-                                            pam.respond(text);
+                                        if (text.length > 0 && pam_context.responseRequired && !lock_ui.authenticating) {
+                                            lock_ui.authenticating = true;
+                                            lock_ui.status_text = "Authenticating...";
+                                            lock_ui.failed = false;
+                                            pam_context.respond(text);
                                             text = "";
-                                            oldText = "";
-                                            passModel.clear();
+                                            old_text = "";
+                                            pass_model.clear();
                                         }
                                     }
                                     onTextChanged: {
-                                        if (lockUI.authenticating)
+                                        if (lock_ui.authenticating)
                                             return ;
 
-                                        if (text.length > 0 && !screenRoot.inputActive)
-                                            screenRoot.inputActive = true;
+                                        if (text.length > 0 && !screen_root.input_active)
+                                            screen_root.input_active = true;
 
-                                        idleTimer.restart();
-                                        if (text !== oldText) {
-                                            if (text.length > oldText.length) {
-                                                for (let i = oldText.length; i < text.length; i++) {
-                                                    passModel.append({
-                                                        "charStr": text.charAt(i),
-                                                        "isDot": lockSettings.hidePassword
+                                        idle_timer.restart();
+                                        if (text !== old_text) {
+                                            if (text.length > old_text.length) {
+                                                for (let i = old_text.length; i < text.length; i++) {
+                                                    pass_model.append({
+                                                        "char_str": text.charAt(i),
+                                                        "is_dot": lock_settings.hide_password
                                                     });
                                                 }
-                                            } else if (text.length < oldText.length) {
-                                                let diff = oldText.length - text.length;
+                                            } else if (text.length < old_text.length) {
+                                                let diff = old_text.length - text.length;
                                                 for (let i = 0; i < diff; i++) {
-                                                    passModel.remove(passModel.count - 1);
+                                                    pass_model.remove(pass_model.count - 1);
                                                 }
                                             } else {
-                                                passModel.clear();
+                                                pass_model.clear();
                                                 for (let i = 0; i < text.length; i++) {
-                                                    passModel.append({
-                                                        "charStr": text.charAt(i),
-                                                        "isDot": lockSettings.hidePassword
+                                                    pass_model.append({
+                                                        "char_str": text.charAt(i),
+                                                        "is_dot": lock_settings.hide_password
                                                     });
                                                 }
                                             }
-                                            oldText = text;
+                                            old_text = text;
                                         }
                                         if (text.length > 0) {
-                                            lockUI.failed = false;
-                                            lockUI.statusText = "Enter PIN";
+                                            lock_ui.failed = false;
+                                            lock_ui.status_text = "Enter PIN";
                                         } else {
-                                            if (!lockUI.failed)
-                                                lockUI.statusText = "Locked";
+                                            if (!lock_ui.failed)
+                                                lock_ui.status_text = "Locked";
 
                                         }
                                     }
                                 }
 
                                 ListModel {
-                                    id: passModel
+                                    id: pass_model
                                 }
 
                                 Item {
                                     anchors.fill: parent
-                                    anchors.leftMargin: 20 * screenRoot.sc
-                                    anchors.rightMargin: 20 * screenRoot.sc
+                                    anchors.leftMargin: 20 * screen_root.sc
+                                    anchors.rightMargin: 20 * screen_root.sc
                                     clip: true
 
                                     Row {
-                                        id: dotRow
+                                        id: dot_row
 
                                         anchors.verticalCenter: parent.verticalCenter
-                                        x: width > parent.width ? parent.width - width : (parent.width - width) / 2
-                                        spacing: 4 * screenRoot.sc
+                                        x: {
+                                            if (width > parent.width) return parent.width - width;
+                                            return (parent.width - width) / 2;
+                                        }
+                                        spacing: 4 * screen_root.sc
 
                                         Repeater {
-                                            model: passModel
+                                            model: pass_model
 
                                             delegate: Text {
-                                                text: model.isDot ? "•" : model.charStr
+                                                text: {
+                                                    if (model.is_dot) return "•";
+                                                    return model.char_str;
+                                                }
                                                 font.family: "JetBrains Mono Nerd Font"
-                                                font.pixelSize: model.isDot ? (32 * screenRoot.sc) : (24 * screenRoot.sc)
+                                                font.pixelSize: {
+                                                    if (model.is_dot) return 32 * screen_root.sc;
+                                                    return 24 * screen_root.sc;
+                                                }
                                                 font.weight: Font.Bold
-                                                color: lockUI.failed ? root.color1 : (lockUI.authenticating ? root.color3 : root.text)
+                                                color: {
+                                                    if (lock_ui.failed) return root.color1;
+                                                    if (lock_ui.authenticating) return root.color3;
+                                                    return root.text;
+                                                }
                                                 verticalAlignment: Text.AlignVCenter
-                                                height: pinPill.height
+                                                height: pin_pill.height
 
                                                 Timer {
-                                                    interval: lockSettings.revealDuration
-                                                    running: !model.isDot && !lockSettings.hidePassword
+                                                    interval: lock_settings.reveal_duration
+                                                    running: !model.is_dot && !lock_settings.hide_password
                                                     onTriggered: {
-                                                        if (index >= 0 && index < passModel.count)
-                                                            passModel.setProperty(index, "isDot", true);
+                                                        if (index >= 0 && index < pass_model.count)
+                                                            pass_model.setProperty(index, "is_dot", true);
 
                                                     }
                                                 }
@@ -888,7 +979,7 @@ ShellRoot {
                                 }
 
                                 transform: Translate {
-                                    id: shakeTranslate
+                                    id: shake_translate
 
                                     x: 0
                                 }
@@ -924,41 +1015,53 @@ ShellRoot {
                     }
 
                     transform: Translate {
-                        y: (30 * screenRoot.sc) * (1 - screenRoot.introState)
+                        y: (30 * screen_root.sc) * (1 - screen_root.intro_state)
                     }
 
                 }
 
                 RowLayout {
                     anchors.bottom: parent.bottom
-                    anchors.bottomMargin: 40 * screenRoot.sc
+                    anchors.bottomMargin: 40 * screen_root.sc
                     anchors.horizontalCenter: parent.horizontalCenter
-                    spacing: 16 * screenRoot.sc
-                    opacity: screenRoot.introState
+                    spacing: 16 * screen_root.sc
+                    opacity: screen_root.intro_state
 
                     // KEYBOARD LAYOUT MODULE
                     Rectangle {
-                        property bool isHovered: kbMouse.containsMouse
+                        property bool is_hovered: kb_mouse.containsMouse
 
-                        Layout.preferredHeight: 48 * screenRoot.sc
-                        Layout.preferredWidth: kbLayoutRow.implicitWidth + (36 * screenRoot.sc)
+                        Layout.preferredHeight: 48 * screen_root.sc
+                        Layout.preferredWidth: kb_layout_row.implicitWidth + (36 * screen_root.sc)
                         radius: height / 2
-                        color: isHovered ? Qt.rgba(root.color11.r, root.color11.g, root.color11.b, 0.6) : Qt.rgba(root.color10.r, root.color10.g, root.color10.b, 0.4)
-                        border.color: isHovered ? root.color5 : Qt.rgba(root.text.r, root.text.g, root.text.b, 0.08)
-                        border.width: Math.max(1, 1 * screenRoot.sc)
-                        scale: isHovered ? 1.05 : 1
+                        color: {
+                            if (is_hovered) return Qt.rgba(root.color11.r, root.color11.g, root.color11.b, 0.8);
+                            return Qt.rgba(root.color10.r, root.color10.g, root.color10.b, 0.4);
+                        }
+                        border.color: {
+                            if (is_hovered) return root.color5;
+                            return Qt.rgba(root.text.r, root.text.g, root.text.b, 0.08);
+                        }
+                        border.width: Math.max(1, 1 * screen_root.sc)
+                        scale: {
+                            if (is_hovered) return 1.05;
+                            return 1;
+                        }
 
                         RowLayout {
-                            id: kbLayoutRow
+                            id: kb_layout_row
 
                             anchors.centerIn: parent
-                            spacing: 8 * screenRoot.sc
+                            spacing: 8 * screen_root.sc
 
                             Text {
                                 text: "󰌌"
                                 font.family: "JetBrains Mono Nerd Font"
-                                font.pixelSize: 18 * screenRoot.sc
-                                color: parent.parent.isHovered ? root.color3 : root.color6
+                                font.pixelSize: 18 * screen_root.sc
+                                color: {
+                                    if (parent.parent.is_hovered) return root.color3;
+                                    return root.color6;
+                                }
 
                                 Behavior on color {
                                     ColorAnimation {
@@ -970,9 +1073,9 @@ ShellRoot {
                             }
 
                             Text {
-                                text: screenRoot.kbLayout
+                                text: screen_root.kb_layout
                                 font.family: "JetBrains Mono Nerd Font"
-                                font.pixelSize: 14 * screenRoot.sc
+                                font.pixelSize: 14 * screen_root.sc
                                 font.weight: Font.Black
                                 color: root.text
                             }
@@ -980,11 +1083,11 @@ ShellRoot {
                         }
 
                         MouseArea {
-                            id: kbMouse
+                            id: kb_mouse
 
                             anchors.fill: parent
                             hoverEnabled: true
-                            enabled: !screenRoot.isPlayingIntro
+                            enabled: !screen_root.is_playing_intro
                         }
 
                         Behavior on scale {
@@ -1013,25 +1116,34 @@ ShellRoot {
 
                     // BATTERY MODULE
                     Rectangle {
-                        property bool isHovered: batMouse.containsMouse
+                        property bool is_hovered: bat_mouse.containsMouse
 
-                        visible: !screenRoot.isDesktop
-                        Layout.preferredHeight: 48 * screenRoot.sc
-                        Layout.preferredWidth: batLayoutRow.implicitWidth + (36 * screenRoot.sc)
+                        visible: !screen_root.is_desktop
+                        Layout.preferredHeight: 48 * screen_root.sc
+                        Layout.preferredWidth: bat_layout_row.implicitWidth + (36 * screen_root.sc)
                         radius: height / 2
-                        color: isHovered ? Qt.rgba(root.color11.r, root.color11.g, root.color11.b, 0.6) : Qt.rgba(root.color10.r, root.color10.g, root.color10.b, 0.4)
-                        border.color: isHovered ? batLayoutRow.dynamicBatColor : Qt.rgba(root.text.r, root.text.g, root.text.b, 0.08)
-                        border.width: Math.max(1, 1 * screenRoot.sc)
-                        scale: isHovered ? 1.05 : 1
+                        color: {
+                            if (is_hovered) return Qt.rgba(root.color11.r, root.color11.g, root.color11.b, 0.6);
+                            return Qt.rgba(root.color10.r, root.color10.g, root.color10.b, 0.4);
+                        }
+                        border.color: {
+                            if (is_hovered) return bat_layout_row.dynamic_bat_color;
+                            return Qt.rgba(root.text.r, root.text.g, root.text.b, 0.08);
+                        }
+                        border.width: Math.max(1, 1 * screen_root.sc)
+                        scale: {
+                            if (is_hovered) return 1.05;
+                            return 1;
+                        }
 
                         RowLayout {
-                            id: batLayoutRow
+                            id: bat_layout_row
 
-                            property color dynamicBatColor: {
-                                if (screenRoot.batStatus === "Charging")
+                            property color dynamic_bat_color: {
+                                if (screen_root.bat_status === "Charging")
                                     return root.color4;
 
-                                let pct = parseInt(screenRoot.batPct);
+                                let pct = parseInt(screen_root.bat_pct);
                                 if (pct >= 60)
                                     return root.color4;
 
@@ -1042,13 +1154,17 @@ ShellRoot {
                             }
 
                             anchors.centerIn: parent
-                            spacing: 8 * screenRoot.sc
+                            spacing: 8 * screen_root.sc
 
                             Text {
-                                text: screenRoot.batStatus === "Charging" ? "󰂄" : (parseInt(screenRoot.batPct) < 20 ? "󰂃" : "󰁹")
+                                text: {
+                                    if (screen_root.bat_status === "Charging") return "󰂄";
+                                    if (parseInt(screen_root.bat_pct) < 20) return "󰂃";
+                                    return "󰁹";
+                                }
                                 font.family: "JetBrains Mono Nerd Font"
-                                font.pixelSize: 20 * screenRoot.sc
-                                color: batLayoutRow.dynamicBatColor
+                                font.pixelSize: 20 * screen_root.sc
+                                color: bat_layout_row.dynamic_bat_color
 
                                 Behavior on color {
                                     ColorAnimation {
@@ -1060,9 +1176,9 @@ ShellRoot {
                             }
 
                             Text {
-                                text: screenRoot.batPct + "%"
+                                text: screen_root.bat_pct + "%"
                                 font.family: "JetBrains Mono Nerd Font"
-                                font.pixelSize: 14 * screenRoot.sc
+                                font.pixelSize: 14 * screen_root.sc
                                 font.weight: Font.Black
                                 color: root.text
 
@@ -1078,11 +1194,11 @@ ShellRoot {
                         }
 
                         MouseArea {
-                            id: batMouse
+                            id: bat_mouse
 
                             anchors.fill: parent
                             hoverEnabled: true
-                            enabled: !screenRoot.isPlayingIntro
+                            enabled: !screen_root.is_playing_intro
                         }
 
                         Behavior on scale {
@@ -1110,75 +1226,87 @@ ShellRoot {
                     }
 
                     transform: Translate {
-                        y: (20 * screenRoot.sc) * (1 - screenRoot.introState)
+                        y: (20 * screen_root.sc) * (1 - screen_root.intro_state)
                     }
 
                 }
 
                 // POWER MENU DROPDOWN
                 Rectangle {
-                    id: powerMenu
+                    id: power_menu
 
-                    anchors.bottom: powerBtn.top
+                    anchors.bottom: power_btn.top
                     anchors.right: parent.right
-                    anchors.bottomMargin: 15 * screenRoot.sc
-                    anchors.rightMargin: 40 * screenRoot.sc
-                    width: 280 * screenRoot.sc
-                    height: screenRoot.powerMenuOpen ? (menuLayout.implicitHeight + (20 * screenRoot.sc)) : 0
-                    radius: 18 * screenRoot.sc
+                    anchors.bottomMargin: 15 * screen_root.sc
+                    anchors.rightMargin: 40 * screen_root.sc
+                    width: 280 * screen_root.sc
+                    height: {
+                        if (screen_root.power_menu_open) return menu_layout.implicitHeight + (20 * screen_root.sc);
+                        return 0;
+                    }
+                    radius: 18 * screen_root.sc
                     clip: true
-                    opacity: screenRoot.powerMenuOpen ? 1 : 0
+                    opacity: {
+                        if (screen_root.power_menu_open) return 1;
+                        return 0;
+                    }
                     color: Qt.rgba(root.color0.r, root.color0.g, root.color0.b, 0.96)
                     border.color: Qt.rgba(root.color15.r, root.color15.g, root.color15.b, 0.18)
-                    border.width: Math.max(1, 1 * screenRoot.sc)
+                    border.width: Math.max(1, 1 * screen_root.sc)
 
                     ColumnLayout {
-                        id: menuLayout
+                        id: menu_layout
 
                         anchors.top: parent.top
-                        anchors.topMargin: 10 * screenRoot.sc
+                        anchors.topMargin: 10 * screen_root.sc
                         anchors.left: parent.left
                         anchors.right: parent.right
-                        spacing: 6 * screenRoot.sc
+                        spacing: 6 * screen_root.sc
 
                         Text {
                             text: "SETTINGS"
                             font.family: "JetBrains Mono Nerd Font"
                             font.weight: Font.Black
-                            font.pixelSize: 12 * screenRoot.sc
+                            font.pixelSize: 12 * screen_root.sc
                             font.letterSpacing: 1.5
                             color: root.color15
-                            Layout.leftMargin: 18 * screenRoot.sc
-                            Layout.topMargin: 4 * screenRoot.sc
-                            Layout.bottomMargin: 4 * screenRoot.sc
+                            Layout.leftMargin: 18 * screen_root.sc
+                            Layout.topMargin: 4 * screen_root.sc
+                            Layout.bottomMargin: 4 * screen_root.sc
                         }
 
                         RowLayout {
                             Layout.fillWidth: true
-                            Layout.leftMargin: 18 * screenRoot.sc
-                            Layout.rightMargin: 18 * screenRoot.sc
-                            Layout.topMargin: 4 * screenRoot.sc
+                            Layout.leftMargin: 18 * screen_root.sc
+                            Layout.rightMargin: 18 * screen_root.sc
+                            Layout.topMargin: 4 * screen_root.sc
 
                             Text {
                                 text: "Hide password"
                                 font.family: "JetBrains Mono Nerd Font"
-                                font.pixelSize: 14 * screenRoot.sc
+                                font.pixelSize: 14 * screen_root.sc
                                 font.weight: Font.Medium
                                 color: root.color15
                                 Layout.fillWidth: true
                             }
 
                             Rectangle {
-                                width: 40 * screenRoot.sc
-                                height: 22 * screenRoot.sc
+                                width: 40 * screen_root.sc
+                                height: 22 * screen_root.sc
                                 radius: height / 2
-                                color: lockSettings.hidePassword ? root.color4 : root.color8
+                                color: {
+                                    if (lock_settings.hide_password) return root.color4;
+                                    return root.color8;
+                                }
 
                                 Rectangle {
                                     width: height
-                                    height: 18 * screenRoot.sc
+                                    height: 18 * screen_root.sc
                                     radius: height / 2
-                                    x: lockSettings.hidePassword ? parent.width - width - (2 * screenRoot.sc) : (2 * screenRoot.sc)
+                                    x: {
+                                        if (lock_settings.hide_password) return parent.width - width - (2 * screen_root.sc);
+                                        return 2 * screen_root.sc;
+                                    }
                                     y: (parent.height - height) / 2
                                     color: root.color15
 
@@ -1195,9 +1323,9 @@ ShellRoot {
                                 MouseArea {
                                     anchors.fill: parent
                                     onClicked: {
-                                        lockSettings.hidePassword = !lockSettings.hidePassword;
-                                        if (lockSettings.hidePassword) {
-                                            for (let i = 0; i < passModel.count; i++) passModel.setProperty(i, "isDot", true)
+                                        lock_settings.hide_password = !lock_settings.hide_password;
+                                        if (lock_settings.hide_password) {
+                                            for (let i = 0; i < pass_model.count; i++) pass_model.setProperty(i, "is_dot", true)
                                         }
                                     }
                                 }
@@ -1215,12 +1343,15 @@ ShellRoot {
 
                         ColumnLayout {
                             Layout.fillWidth: true
-                            Layout.leftMargin: 18 * screenRoot.sc
-                            Layout.rightMargin: 18 * screenRoot.sc
-                            Layout.topMargin: 8 * screenRoot.sc
-                            Layout.bottomMargin: 8 * screenRoot.sc
-                            spacing: 8 * screenRoot.sc
-                            opacity: lockSettings.hidePassword ? 0.3 : 1
+                            Layout.leftMargin: 18 * screen_root.sc
+                            Layout.rightMargin: 18 * screen_root.sc
+                            Layout.topMargin: 8 * screen_root.sc
+                            Layout.bottomMargin: 8 * screen_root.sc
+                            spacing: 8 * screen_root.sc
+                            opacity: {
+                                if (lock_settings.hide_password) return 0.3;
+                                return 1;
+                            }
 
                             RowLayout {
                                 Layout.fillWidth: true
@@ -1228,16 +1359,19 @@ ShellRoot {
                                 Text {
                                     text: "Reveal delay"
                                     font.family: "JetBrains Mono Nerd Font"
-                                    font.pixelSize: 14 * screenRoot.sc
+                                    font.pixelSize: 14 * screen_root.sc
                                     font.weight: Font.Medium
                                     color: root.color15
                                     Layout.fillWidth: true
                                 }
 
                                 Text {
-                                    text: lockSettings.revealDuration >= 1000 ? (lockSettings.revealDuration / 1000).toFixed(1) + " s" : lockSettings.revealDuration + " ms"
+                                    text: {
+                                        if (lock_settings.reveal_duration >= 1000) return (lock_settings.reveal_duration / 1000).toFixed(1) + " s";
+                                        return lock_settings.reveal_duration + " ms";
+                                    }
                                     font.family: "JetBrains Mono Nerd Font"
-                                    font.pixelSize: 13 * screenRoot.sc
+                                    font.pixelSize: 13 * screen_root.sc
                                     font.weight: Font.Bold
                                     color: root.color8
                                 }
@@ -1246,17 +1380,17 @@ ShellRoot {
 
                             Item {
                                 Layout.fillWidth: true
-                                Layout.preferredHeight: 28 * screenRoot.sc
+                                Layout.preferredHeight: 28 * screen_root.sc
 
                                 Rectangle {
                                     anchors.verticalCenter: parent.verticalCenter
                                     width: parent.width
-                                    height: 8 * screenRoot.sc
+                                    height: 8 * screen_root.sc
                                     radius: height / 2
                                     color: root.color8
 
                                     Rectangle {
-                                        width: ((lockSettings.revealDuration - 100) / 2900) * parent.width
+                                        width: ((lock_settings.reveal_duration - 100) / 2900) * parent.width
                                         height: parent.height
                                         radius: height / 2
                                         color: root.color4
@@ -1265,17 +1399,21 @@ ShellRoot {
                                 }
 
                                 Rectangle {
-                                    id: sliderThumb
+                                    id: slider_thumb
 
-                                    width: 20 * screenRoot.sc
+                                    width: 20 * screen_root.sc
                                     height: width
                                     radius: height / 2
                                     color: root.color15
                                     border.color: root.color0
-                                    border.width: Math.max(1, 2 * screenRoot.sc)
+                                    border.width: Math.max(1, 2 * screen_root.sc)
                                     anchors.verticalCenter: parent.verticalCenter
-                                    x: Math.max(0, Math.min(((lockSettings.revealDuration - 100) / 2900) * parent.width - (width / 2), parent.width - width))
-                                    scale: sliderMouse.pressed ? 1.3 : (sliderMouse.containsMouse ? 1.15 : 1)
+                                    x: Math.max(0, Math.min(((lock_settings.reveal_duration - 100) / 2900) * parent.width - (width / 2), parent.width - width))
+                                    scale: {
+                                        if (slider_mouse.pressed) return 1.3;
+                                        if (slider_mouse.containsMouse) return 1.15;
+                                        return 1;
+                                    }
 
                                     Behavior on scale {
                                         NumberAnimation {
@@ -1288,17 +1426,17 @@ ShellRoot {
                                 }
 
                                 MultiEffect {
-                                    source: sliderThumb
-                                    anchors.fill: sliderThumb
+                                    source: slider_thumb
+                                    anchors.fill: slider_thumb
                                     shadowEnabled: true
                                     shadowBlur: 0.5
                                     shadowColor: "#000000"
                                     shadowOpacity: 0.4
-                                    shadowVerticalOffset: 2 * screenRoot.sc
+                                    shadowVerticalOffset: 2 * screen_root.sc
                                 }
 
                                 MouseArea {
-                                    id: sliderMouse
+                                    id: slider_mouse
 
                                     function updateVal(mouseX) {
                                         let pct = Math.max(0, Math.min(1, mouseX / width));
@@ -1307,12 +1445,12 @@ ShellRoot {
                                             ms -= (ms % 100);
                                         else if (ms % 100 > 90)
                                             ms += (100 - (ms % 100));
-                                        lockSettings.revealDuration = ms;
+                                        lock_settings.reveal_duration = ms;
                                     }
 
                                     anchors.fill: parent
                                     hoverEnabled: true
-                                    enabled: !lockSettings.hidePassword
+                                    enabled: !lock_settings.hide_password
                                     preventStealing: true
                                     onPositionChanged: (mouse) => {
                                         if (pressed)
@@ -1337,45 +1475,55 @@ ShellRoot {
 
                         Rectangle {
                             Layout.fillWidth: true
-                            Layout.preferredHeight: Math.max(1, 1 * screenRoot.sc)
+                            Layout.preferredHeight: Math.max(1, 1 * screen_root.sc)
                             color: Qt.rgba(root.color15.r, root.color15.g, root.color15.b, 0.12)
-                            Layout.leftMargin: 18 * screenRoot.sc
-                            Layout.rightMargin: 18 * screenRoot.sc
-                            Layout.topMargin: 4 * screenRoot.sc
-                            Layout.bottomMargin: 4 * screenRoot.sc
+                            Layout.leftMargin: 18 * screen_root.sc
+                            Layout.rightMargin: 18 * screen_root.sc
+                            Layout.topMargin: 4 * screen_root.sc
+                            Layout.bottomMargin: 4 * screen_root.sc
                         }
 
                         Text {
                             text: "SYSTEM"
                             font.family: "JetBrains Mono Nerd Font"
                             font.weight: Font.Black
-                            font.pixelSize: 12 * screenRoot.sc
+                            font.pixelSize: 12 * screen_root.sc
                             font.letterSpacing: 1.5
                             color: root.color15
-                            Layout.leftMargin: 18 * screenRoot.sc
-                            Layout.bottomMargin: 4 * screenRoot.sc
+                            Layout.leftMargin: 18 * screen_root.sc
+                            Layout.bottomMargin: 4 * screen_root.sc
                         }
 
                         Rectangle {
                             Layout.fillWidth: true
-                            Layout.preferredHeight: 48 * screenRoot.sc
-                            Layout.leftMargin: 10 * screenRoot.sc
-                            Layout.rightMargin: 10 * screenRoot.sc
-                            radius: 12 * screenRoot.sc
-                            color: ma1.containsMouse ? Qt.rgba(root.color15.r, root.color15.g, root.color15.b, 0.08) : "transparent"
-                            scale: ma1.pressed ? 0.95 : (ma1.containsMouse ? 1.02 : 1)
+                            Layout.preferredHeight: 48 * screen_root.sc
+                            Layout.leftMargin: 10 * screen_root.sc
+                            Layout.rightMargin: 10 * screen_root.sc
+                            radius: 12 * screen_root.sc
+                            color: {
+                                if (reboot_mouse_area.containsMouse) return Qt.rgba(root.color15.r, root.color15.g, root.color15.b, 0.08);
+                                return "transparent";
+                            }
+                            scale: {
+                                if (reboot_mouse_area.pressed) return 0.95;
+                                if (reboot_mouse_area.containsMouse) return 1.02;
+                                return 1;
+                            }
 
                             RowLayout {
                                 anchors.fill: parent
-                                anchors.leftMargin: 16 * screenRoot.sc
-                                anchors.rightMargin: 16 * screenRoot.sc
+                                anchors.leftMargin: 16 * screen_root.sc
+                                anchors.rightMargin: 16 * screen_root.sc
                                 spacing: 0
 
                                 Text {
                                     text: "󰜉"
                                     font.family: "JetBrains Mono Nerd Font"
-                                    font.pixelSize: 18 * screenRoot.sc
-                                    color: ma1.containsMouse ? root.color15 : Qt.rgba(root.color15.r, root.color15.g, root.color15.b, 0.75)
+                                    font.pixelSize: 18 * screen_root.sc
+                                    color: {
+                                            if (reboot_mouse_area.containsMouse) return root.color15;
+                                            return Qt.rgba(root.color15.r, root.color15.g, root.color15.b, 0.75);
+                                        }
 
                                     Behavior on color {
                                         ColorAnimation {
@@ -1393,9 +1541,12 @@ ShellRoot {
                                 Text {
                                     text: "Reboot"
                                     font.family: "JetBrains Mono Nerd Font"
-                                    font.pixelSize: 15 * screenRoot.sc
+                                    font.pixelSize: 15 * screen_root.sc
                                     font.weight: Font.Medium
-                                    color: ma1.containsMouse ? root.color15 : Qt.rgba(root.color15.r, root.color15.g, root.color15.b, 0.75)
+                                    color: {
+                                            if (reboot_mouse_area.containsMouse) return root.color15;
+                                            return Qt.rgba(root.color15.r, root.color15.g, root.color15.b, 0.75);
+                                        }
 
                                     Behavior on color {
                                         ColorAnimation {
@@ -1409,13 +1560,13 @@ ShellRoot {
                             }
 
                             MouseArea {
-                                id: ma1
+                                id: reboot_mouse_area
 
                                 anchors.fill: parent
                                 hoverEnabled: true
                                 onClicked: {
-                                    screenRoot.powerMenuOpen = false;
-                                    reloadProcess.running = true;
+                                    screen_root.power_menu_open = false;
+                                    reload_process.running = true;
                                 }
                             }
 
@@ -1438,24 +1589,34 @@ ShellRoot {
 
                         Rectangle {
                             Layout.fillWidth: true
-                            Layout.preferredHeight: 48 * screenRoot.sc
-                            Layout.leftMargin: 10 * screenRoot.sc
-                            Layout.rightMargin: 10 * screenRoot.sc
-                            radius: 12 * screenRoot.sc
-                            color: ma2.containsMouse ? Qt.rgba(root.color15.r, root.color15.g, root.color15.b, 0.08) : "transparent"
-                            scale: ma2.pressed ? 0.95 : (ma2.containsMouse ? 1.02 : 1)
+                            Layout.preferredHeight: 48 * screen_root.sc
+                            Layout.leftMargin: 10 * screen_root.sc
+                            Layout.rightMargin: 10 * screen_root.sc
+                            radius: 12 * screen_root.sc
+                            color: {
+                                if (suspend_mouse_area.containsMouse) return Qt.rgba(root.color15.r, root.color15.g, root.color15.b, 0.08);
+                                return "transparent";
+                            }
+                            scale: {
+                                if (suspend_mouse_area.pressed) return 0.95;
+                                if (suspend_mouse_area.containsMouse) return 1.02;
+                                return 1;
+                            }
 
                             RowLayout {
                                 anchors.fill: parent
-                                anchors.leftMargin: 16 * screenRoot.sc
-                                anchors.rightMargin: 16 * screenRoot.sc
+                                anchors.leftMargin: 16 * screen_root.sc
+                                anchors.rightMargin: 16 * screen_root.sc
                                 spacing: 0
 
                                 Text {
                                     text: "󰒲"
                                     font.family: "JetBrains Mono Nerd Font"
-                                    font.pixelSize: 18 * screenRoot.sc
-                                    color: ma2.containsMouse ? root.color15 : Qt.rgba(root.color15.r, root.color15.g, root.color15.b, 0.75)
+                                    font.pixelSize: 18 * screen_root.sc
+                                    color: {
+                                            if (suspend_mouse_area.containsMouse) return root.color15;
+                                            return Qt.rgba(root.color15.r, root.color15.g, root.color15.b, 0.75);
+                                        }
 
                                     Behavior on color {
                                         ColorAnimation {
@@ -1473,9 +1634,12 @@ ShellRoot {
                                 Text {
                                     text: "Suspend"
                                     font.family: "JetBrains Mono Nerd Font"
-                                    font.pixelSize: 15 * screenRoot.sc
+                                    font.pixelSize: 15 * screen_root.sc
                                     font.weight: Font.Medium
-                                    color: ma2.containsMouse ? root.color15 : Qt.rgba(root.color15.r, root.color15.g, root.color15.b, 0.75)
+                                    color: {
+                                            if (suspend_mouse_area.containsMouse) return root.color15;
+                                            return Qt.rgba(root.color15.r, root.color15.g, root.color15.b, 0.75);
+                                        }
 
                                     Behavior on color {
                                         ColorAnimation {
@@ -1489,13 +1653,13 @@ ShellRoot {
                             }
 
                             MouseArea {
-                                id: ma2
+                                id: suspend_mouse_area
 
                                 anchors.fill: parent
                                 hoverEnabled: true
                                 onClicked: {
-                                    screenRoot.powerMenuOpen = false;
-                                    suspendProcess.running = true;
+                                    screen_root.power_menu_open = false;
+                                    suspend_process.running = true;
                                 }
                             }
 
@@ -1518,25 +1682,35 @@ ShellRoot {
 
                         Rectangle {
                             Layout.fillWidth: true
-                            Layout.preferredHeight: 48 * screenRoot.sc
-                            Layout.leftMargin: 10 * screenRoot.sc
-                            Layout.rightMargin: 10 * screenRoot.sc
-                            Layout.bottomMargin: 8 * screenRoot.sc
-                            radius: 12 * screenRoot.sc
-                            color: ma3.containsMouse ? Qt.rgba(root.color15.r, root.color15.g, root.color15.b, 0.08) : "transparent"
-                            scale: ma3.pressed ? 0.95 : (ma3.containsMouse ? 1.02 : 1)
+                            Layout.preferredHeight: 48 * screen_root.sc
+                            Layout.leftMargin: 10 * screen_root.sc
+                            Layout.rightMargin: 10 * screen_root.sc
+                            Layout.bottomMargin: 8 * screen_root.sc
+                            radius: 12 * screen_root.sc
+                            color: {
+                                if (poweroff_mouse_area.containsMouse) return Qt.rgba(root.color15.r, root.color15.g, root.color15.b, 0.08);
+                                return "transparent";
+                            }
+                            scale: {
+                                if (poweroff_mouse_area.pressed) return 0.95;
+                                if (poweroff_mouse_area.containsMouse) return 1.02;
+                                return 1;
+                            }
 
                             RowLayout {
                                 anchors.fill: parent
-                                anchors.leftMargin: 16 * screenRoot.sc
-                                anchors.rightMargin: 16 * screenRoot.sc
+                                anchors.leftMargin: 16 * screen_root.sc
+                                anchors.rightMargin: 16 * screen_root.sc
                                 spacing: 0
 
                                 Text {
                                     text: "󰐥"
                                     font.family: "JetBrains Mono Nerd Font"
-                                    font.pixelSize: 18 * screenRoot.sc
-                                    color: ma3.containsMouse ? root.color15 : Qt.rgba(root.color15.r, root.color15.g, root.color15.b, 0.75)
+                                    font.pixelSize: 18 * screen_root.sc
+                                    color: {
+                                            if (poweroff_mouse_area.containsMouse) return root.color15;
+                                            return Qt.rgba(root.color15.r, root.color15.g, root.color15.b, 0.75);
+                                        }
 
                                     Behavior on color {
                                         ColorAnimation {
@@ -1554,9 +1728,12 @@ ShellRoot {
                                 Text {
                                     text: "Power Off"
                                     font.family: "JetBrains Mono Nerd Font"
-                                    font.pixelSize: 15 * screenRoot.sc
+                                    font.pixelSize: 15 * screen_root.sc
                                     font.weight: Font.Medium
-                                    color: ma3.containsMouse ? root.color15 : Qt.rgba(root.color15.r, root.color15.g, root.color15.b, 0.75)
+                                    color: {
+                                            if (poweroff_mouse_area.containsMouse) return root.color15;
+                                            return Qt.rgba(root.color15.r, root.color15.g, root.color15.b, 0.75);
+                                        }
 
                                     Behavior on color {
                                         ColorAnimation {
@@ -1570,13 +1747,13 @@ ShellRoot {
                             }
 
                             MouseArea {
-                                id: ma3
+                                id: poweroff_mouse_area
 
                                 anchors.fill: parent
                                 hoverEnabled: true
                                 onClicked: {
-                                    screenRoot.powerMenuOpen = false;
-                                    poweroffProcess.running = true;
+                                    screen_root.power_menu_open = false;
+                                    poweroff_process.running = true;
                                 }
                             }
 
@@ -1617,26 +1794,41 @@ ShellRoot {
                 }
 
                 Rectangle {
-                    id: powerBtn
+                    id: power_btn
 
                     anchors.bottom: parent.bottom
                     anchors.right: parent.right
-                    anchors.margins: 40 * screenRoot.sc
-                    width: 52 * screenRoot.sc
+                    anchors.margins: 40 * screen_root.sc
+                    width: 52 * screen_root.sc
                     height: width
                     radius: height / 2
-                    color: screenRoot.powerMenuOpen ? root.color12 : (powerBtnMa.containsMouse ? Qt.rgba(root.color11.r, root.color11.g, root.color11.b, 0.8) : Qt.rgba(root.color10.r, root.color10.g, root.color10.b, 0.4))
-                    border.color: screenRoot.powerMenuOpen ? root.text : Qt.rgba(root.text.r, root.text.g, root.text.b, 0.15)
-                    border.width: Math.max(1, 1 * screenRoot.sc)
-                    opacity: screenRoot.introState
-                    scale: powerBtnMa.pressed ? 0.9 : (powerBtnMa.containsMouse ? 1.08 : 1)
+                    color: {
+                            if (screen_root.power_menu_open) return root.color12;
+                            if (power_btn_mouse_area.containsMouse) return Qt.rgba(root.color11.r, root.color11.g, root.color11.b, 0.8);
+                            return Qt.rgba(root.color10.r, root.color10.g, root.color10.b, 0.4);
+                        }
+                    border.color: {
+                            if (screen_root.power_menu_open) return root.text;
+                            return Qt.rgba(root.text.r, root.text.g, root.text.b, 0.15);
+                        }
+                    border.width: Math.max(1, 1 * screen_root.sc)
+                    opacity: screen_root.intro_state
+                    scale: {
+                            if (power_btn_mouse_area.pressed) return 0.9;
+                            if (power_btn_mouse_area.containsMouse) return 1.08;
+                            return 1;
+                        }
 
                     Text {
                         anchors.centerIn: parent
                         text: "󰐥"
                         font.family: "JetBrains Mono Nerd Font"
-                        font.pixelSize: 22 * screenRoot.sc
-                        color: screenRoot.powerMenuOpen ? root.color1 : (powerBtnMa.containsMouse ? root.text : root.color7)
+                        font.pixelSize: 22 * screen_root.sc
+                        color: {
+                                if (screen_root.power_menu_open) return root.color1;
+                                if (power_btn_mouse_area.containsMouse) return root.text;
+                                return root.color7;
+                            }
 
                         Behavior on color {
                             ColorAnimation {
@@ -1648,21 +1840,21 @@ ShellRoot {
                     }
 
                     MouseArea {
-                        id: powerBtnMa
+                        id: power_btn_mouse_area
 
                         anchors.fill: parent
                         hoverEnabled: true
-                        enabled: !screenRoot.isPlayingIntro
+                        enabled: !screen_root.is_playing_intro
                         onClicked: {
-                            screenRoot.powerMenuOpen = !screenRoot.powerMenuOpen;
-                            if (!screenRoot.powerMenuOpen)
-                                inputField.forceActiveFocus();
+                            screen_root.power_menu_open = !screen_root.power_menu_open;
+                            if (!screen_root.power_menu_open)
+                                input_field.forceActiveFocus();
 
                         }
                     }
 
                     transform: Translate {
-                        y: (20 * screenRoot.sc) * (1 - screenRoot.introState)
+                        y: (20 * screen_root.sc) * (1 - screen_root.intro_state)
                     }
 
                     Behavior on color {
@@ -1690,58 +1882,58 @@ ShellRoot {
                 }
 
                 Item {
-                    id: introOverlay
+                    id: intro_overlay
 
                     anchors.fill: parent
                     z: 999
-                    visible: screenRoot.isPlayingIntro || opacity > 0
+                    visible: screen_root.is_playing_intro || opacity > 0
 
                     Rectangle {
-                        id: ring3
+                        id: ring_3
 
-                        width: 360 * screenRoot.sc
+                        width: 360 * screen_root.sc
                         height: width
                         radius: height / 2
                         anchors.centerIn: parent
                         color: "transparent"
                         border.color: root.color5
-                        border.width: Math.max(1, 1 * screenRoot.sc)
+                        border.width: Math.max(1, 1 * screen_root.sc)
                         scale: 0.5
                         opacity: 0
                     }
 
                     Rectangle {
-                        id: ring2
+                        id: ring_2
 
-                        width: 300 * screenRoot.sc
+                        width: 300 * screen_root.sc
                         height: width
                         radius: height / 2
                         anchors.centerIn: parent
                         color: "transparent"
                         border.color: root.text
-                        border.width: Math.max(1, 1 * screenRoot.sc)
+                        border.width: Math.max(1, 1 * screen_root.sc)
                         scale: 0.8
                         opacity: 0
                     }
 
                     Rectangle {
-                        id: ring1
+                        id: ring_1
 
-                        width: 240 * screenRoot.sc
+                        width: 240 * screen_root.sc
                         height: width
                         radius: height / 2
                         anchors.centerIn: parent
                         color: "transparent"
                         border.color: root.text
-                        border.width: Math.max(1, 2 * screenRoot.sc)
+                        border.width: Math.max(1, 2 * screen_root.sc)
                         scale: 0.8
                         opacity: 0
                     }
 
                     Item {
-                        id: introLockOrb
+                        id: intro_lock_orb
 
-                        width: 170 * screenRoot.sc
+                        width: 170 * screen_root.sc
                         height: width
                         anchors.centerIn: parent
                         scale: 0
@@ -1752,16 +1944,16 @@ ShellRoot {
                             radius: height / 2
                             color: Qt.rgba(root.color10.r, root.color10.g, root.color10.b, 0.9)
                             border.color: root.text
-                            border.width: Math.max(1, 2 * screenRoot.sc)
+                            border.width: Math.max(1, 2 * screen_root.sc)
                         }
 
                         Text {
-                            id: introIconUnlocked
+                            id: intro_icon_unlocked
 
                             anchors.centerIn: parent
                             text: "󰌿"
                             font.family: "Iosevka Nerd Font"
-                            font.pixelSize: 64 * screenRoot.sc
+                            font.pixelSize: 64 * screen_root.sc
                             color: root.text
                             opacity: 1
                             scale: 1
@@ -1769,12 +1961,12 @@ ShellRoot {
                         }
 
                         Text {
-                            id: introIconLocked
+                            id: intro_icon_locked
 
                             anchors.centerIn: parent
                             text: "󰌾"
                             font.family: "Iosevka Nerd Font"
-                            font.pixelSize: 64 * screenRoot.sc
+                            font.pixelSize: 64 * screen_root.sc
                             color: root.text
                             opacity: 0
                             scale: 1.6
@@ -1784,11 +1976,11 @@ ShellRoot {
                     }
 
                     SequentialAnimation {
-                        id: introSequence
+                        id: intro_sequence
 
                         ParallelAnimation {
                             NumberAnimation {
-                                target: introLockOrb
+                                target: intro_lock_orb
                                 property: "scale"
                                 from: 0
                                 to: 1
@@ -1797,7 +1989,7 @@ ShellRoot {
                             }
 
                             NumberAnimation {
-                                target: introLockOrb
+                                target: intro_lock_orb
                                 property: "opacity"
                                 from: 0
                                 to: 1
@@ -1806,7 +1998,7 @@ ShellRoot {
                             }
 
                             NumberAnimation {
-                                target: ring1
+                                target: ring_1
                                 property: "scale"
                                 from: 0.8
                                 to: 1.25
@@ -1815,7 +2007,7 @@ ShellRoot {
                             }
 
                             NumberAnimation {
-                                target: ring1
+                                target: ring_1
                                 property: "opacity"
                                 from: 0.6
                                 to: 0
@@ -1824,7 +2016,7 @@ ShellRoot {
                             }
 
                             NumberAnimation {
-                                target: ring2
+                                target: ring_2
                                 property: "scale"
                                 from: 0.8
                                 to: 1.4
@@ -1833,7 +2025,7 @@ ShellRoot {
                             }
 
                             NumberAnimation {
-                                target: ring2
+                                target: ring_2
                                 property: "opacity"
                                 from: 0.4
                                 to: 0
@@ -1842,7 +2034,7 @@ ShellRoot {
                             }
 
                             NumberAnimation {
-                                target: ring3
+                                target: ring_3
                                 property: "scale"
                                 from: 0.5
                                 to: 1.5
@@ -1851,7 +2043,7 @@ ShellRoot {
                             }
 
                             NumberAnimation {
-                                target: ring3
+                                target: ring_3
                                 property: "opacity"
                                 from: 0.3
                                 to: 0
@@ -1866,7 +2058,7 @@ ShellRoot {
 
                                 ParallelAnimation {
                                     NumberAnimation {
-                                        target: introIconUnlocked
+                                        target: intro_icon_unlocked
                                         property: "scale"
                                         from: 1
                                         to: 0.5
@@ -1875,7 +2067,7 @@ ShellRoot {
                                     }
 
                                     NumberAnimation {
-                                        target: introIconUnlocked
+                                        target: intro_icon_unlocked
                                         property: "opacity"
                                         from: 1
                                         to: 0
@@ -1883,7 +2075,7 @@ ShellRoot {
                                     }
 
                                     NumberAnimation {
-                                        target: introIconLocked
+                                        target: intro_icon_locked
                                         property: "scale"
                                         from: 1.6
                                         to: 1
@@ -1892,7 +2084,7 @@ ShellRoot {
                                     }
 
                                     NumberAnimation {
-                                        target: introIconLocked
+                                        target: intro_icon_locked
                                         property: "opacity"
                                         from: 0
                                         to: 1
@@ -1901,18 +2093,18 @@ ShellRoot {
 
                                     SequentialAnimation {
                                         NumberAnimation {
-                                            target: introLockOrb
+                                            target: intro_lock_orb
                                             property: "anchors.verticalCenterOffset"
                                             from: 0
-                                            to: 3 * screenRoot.sc
+                                            to: 3 * screen_root.sc
                                             duration: 40
                                             easing.type: Easing.OutQuad
                                         }
 
                                         NumberAnimation {
-                                            target: introLockOrb
+                                            target: intro_lock_orb
                                             property: "anchors.verticalCenterOffset"
-                                            from: 3 * screenRoot.sc
+                                            from: 3 * screen_root.sc
                                             to: 0
                                             duration: 120
                                             easing.type: Easing.OutBack
@@ -1933,7 +2125,7 @@ ShellRoot {
                         SequentialAnimation {
                             ParallelAnimation {
                                 NumberAnimation {
-                                    target: introLockOrb
+                                    target: intro_lock_orb
                                     property: "scale"
                                     to: 1.8
                                     duration: 100
@@ -1941,7 +2133,7 @@ ShellRoot {
                                 }
 
                                 NumberAnimation {
-                                    target: introOverlay
+                                    target: intro_overlay
                                     property: "opacity"
                                     to: 0
                                     duration: 100
@@ -1951,8 +2143,8 @@ ShellRoot {
                             }
 
                             NumberAnimation {
-                                target: screenRoot
-                                property: "introState"
+                                target: screen_root
+                                property: "intro_state"
                                 from: 0
                                 to: 1
                                 duration: 100
@@ -1962,15 +2154,15 @@ ShellRoot {
                         }
 
                         PropertyAction {
-                            target: screenRoot
-                            property: "isPlayingIntro"
+                            target: screen_root
+                            property: "is_playing_intro"
                             value: false
                         }
 
                         ScriptAction {
                             script: {
-                                inputField.text = "";
-                                inputField.forceActiveFocus();
+                                input_field.text = "";
+                                input_field.forceActiveFocus();
                             }
                         }
 
@@ -1978,7 +2170,7 @@ ShellRoot {
 
                 }
 
-                NumberAnimation on globalOrbitAngle {
+                NumberAnimation on global_orbit_angle {
                     from: 0
                     to: Math.PI * 2
                     duration: 90000

@@ -3,40 +3,45 @@ import Quickshell
 import Quickshell.Io
 
 Item {
-    id: root
+    id: colors_root
 
-    property var palette: [
-        "#1e1e2e", "#f38ba8", "#a6e3a1", "#f9e2af", 
-        "#89b4fa", "#cba6f7", "#94e2d5", "#cdd6f4",
-        "#6c7086", "#fab387", "#a6e3a1", "#f9e2af", 
-        "#89b4fa", "#cba6f7", "#94e2d5", "#bac2de"
-    ]
-    property color base: "#181825"
+    property var palette: ["#1e1e2e", "#f38ba8", "#a6e3a1", "#f9e2af", "#89b4fa", "#cba6f7", "#94e2d5", "#cdd6f4", "#6c7086", "#fab387", "#a6e3a1", "#f9e2af", "#89b4fa", "#cba6f7", "#94e2d5", "#bac2de"]
+    property color background: "#181825"
     property color text: "#cdd6f4"
 
     Process {
-        id: reader
+        id: config_reader
+
         command: ["cat", Quickshell.env("HOME") + "/.config/wallust/colorscheme.json"]
         running: true
+
         stdout: StdioCollector {
             onStreamFinished: {
                 try {
-                    let w = JSON.parse(this.text);
-                    if (w.colors) {
-                        root.palette = w.colors;
+                    if (!this.text) {
+                        return;
+                    }
+                    
+                    let colorscheme = JSON.parse(this.text);
+                    
+                    if (colorscheme.colors) {
+                        colors_root.palette = colorscheme.colors;
                     }
 
-                    if (w.background) {
-                        root.background = w.background;
+                    if (colorscheme.background) {
+                        colors_root.background = colorscheme.background;
                     }
 
-                    if (w.foreground) {
-                        root.text = w.foreground;
+                    if (colorscheme.foreground) {
+                        colors_root.text = colorscheme.foreground;
                     }
-                } catch(e) {
+
+                } catch (e) {
                     console.error(e);
                 }
             }
         }
+
     }
+
 }
