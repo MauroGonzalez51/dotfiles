@@ -24,9 +24,9 @@
       "alignment": "left",
       "segments": [
         {
-          "foreground": "p:color10",
+          "foreground": "p:color3",
           "style": "plain",
-          "template": "<p:color10>┏[</>{{ .UserName }}<p:color10>]</>",
+          "template": "<p:color3>┏[</>{{ .UserName }}<p:color3>]</>",
           "type": "session"
         },
         {
@@ -71,12 +71,12 @@
       "newline": true,
       "segments": [
         {
-          "foreground": "p:color10",
+          "foreground": "p:color3",
           "options": {
             "style": "full"
           },
           "style": "plain",
-          "template": "<p:color10>┖[</>{{ .Path }}<p:color10>]</>",
+          "template": "<p:color3>┖[</>{{ .Path }}<p:color3>]</>",
           "type": "path"
         }
       ],

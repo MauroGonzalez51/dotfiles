@@ -1,0 +1,83 @@
+{
+    "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+    "palette": {},
+    "blocks": [
+        {
+            "alignment": "left",
+            "segments": [
+                {
+                    "foreground": "p:color3",
+                    "style": "plain",
+                    "template": "<p:color3>\u250f[</>{{ .UserName }}<p:color3>]</>",
+                    "type": "session"
+                },
+                {
+                    "foreground": "p:color8",
+                    "options": {
+                        "fetch_status": true,
+                        "fetch_upstream_icon": true
+                    },
+                    "style": "plain",
+                    "template": "<p:color4>--[</>{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}<p:color14> \u25cf </>{{ end }}{{ if .Staging.Changed }}<p:color6> \u25cf </>{{ end }}<p:color4>]</>",
+                    "type": "git"
+                },
+                {
+                    "foreground": "p:color5",
+                    "style": "plain",
+                    "template": "<p:color4>--[</>{{.Profile}}{{if .Region}}@{{.Region}}{{end}}<p:color4>]</>",
+                    "type": "aws"
+                },
+                {
+                    "foreground": "p:color5",
+                    "style": "plain",
+                    "template": "<p:color4>--[</>{{.Context}}{{if .Namespace}} :: {{.Namespace}}{{end}}<p:color4>]</>",
+                    "type": "kubectl"
+                },
+                {
+                    "foreground": "p:foreground",
+                    "style": "plain",
+                    "template": "<p:color4>[</>\uf0e7<p:color4>]</>",
+                    "type": "root"
+                },
+                {
+                    "foreground": "p:foreground",
+                    "style": "plain",
+                    "template": "<p:color1>[x</>{{ reason .Code }}<p:color1>]</>",
+                    "type": "status"
+                }
+            ],
+            "type": "prompt"
+        },
+        {
+            "alignment": "left",
+            "newline": true,
+            "segments": [
+                {
+                    "foreground": "p:color3",
+                    "options": {
+                        "style": "full"
+                    },
+                    "style": "plain",
+                    "template": "<p:color3>\u2516[</>{{ .Path }}<p:color3>]</>",
+                    "type": "path"
+                }
+            ],
+            "type": "prompt"
+        },
+        {
+            "alignment": "left",
+            "newline": true,
+            "segments": [
+                {
+                    "foreground": "p:color10",
+                    "style": "plain",
+                    "template": " \ue602 ",
+                    "type": "text"
+                }
+            ],
+            "type": "prompt"
+        }
+    ],
+    "final_space": true,
+    "version": 4
+}
