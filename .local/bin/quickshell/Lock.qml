@@ -13,22 +13,22 @@ import Quickshell.Wayland
 ShellRoot {
     id: root
 
-    readonly property color color0: theme.palette[0]
-    readonly property color color1: theme.palette[1]
-    readonly property color color2: theme.palette[2]
-    readonly property color color3: theme.palette[3]
-    readonly property color color4: theme.palette[4]
-    readonly property color color5: theme.palette[5]
-    readonly property color color6: theme.palette[6]
-    readonly property color color7: theme.palette[7]
-    readonly property color color8: theme.palette[8]
-    readonly property color color9: theme.palette[9]
-    readonly property color color10: theme.palette[10]
-    readonly property color color11: theme.palette[11]
-    readonly property color color12: theme.palette[12]
-    readonly property color color13: theme.palette[13]
-    readonly property color color14: theme.palette[14]
-    readonly property color color15: theme.palette[15]
+    readonly property color color0: theme.theme_palette[0]
+    readonly property color color1: theme.theme_palette[1]
+    readonly property color color2: theme.theme_palette[2]
+    readonly property color color3: theme.theme_palette[3]
+    readonly property color color4: theme.theme_palette[4]
+    readonly property color color5: theme.theme_palette[5]
+    readonly property color color6: theme.theme_palette[6]
+    readonly property color color7: theme.theme_palette[7]
+    readonly property color color8: theme.theme_palette[8]
+    readonly property color color9: theme.theme_palette[9]
+    readonly property color color10: theme.theme_palette[10]
+    readonly property color color11: theme.theme_palette[11]
+    readonly property color color12: theme.theme_palette[12]
+    readonly property color color13: theme.theme_palette[13]
+    readonly property color color14: theme.theme_palette[14]
+    readonly property color color15: theme.theme_palette[15]
     readonly property color base: theme.background
     readonly property color text: theme.text
 
