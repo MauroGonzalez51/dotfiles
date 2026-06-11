@@ -22,7 +22,14 @@
 # sudo_command = "sudo"
 
 # Disable specific steps - same options as the command line flag
-disable = ["brew_cask", "brew_formula", "containers", "vscode"]
+disable = [
+    "brew_cask",
+    "brew_formula",
+    "containers",
+    "vscode",
+    "antigravity",
+    "pnpm",
+]
 
 # Ignore failures for these steps
 # ignore_failures = ["powershell"]
