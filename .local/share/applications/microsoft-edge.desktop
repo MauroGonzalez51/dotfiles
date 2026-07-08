@@ -111,7 +111,6 @@ Terminal=false
 Icon=microsoft-edge
 Type=Application
 Categories=Network;WebBrowser;
-MimeType=application/pdf;application/rdf+xml;application/rss+xml;application/xhtml+xml;application/xhtml_xml;application/xml;image/gif;image/jpeg;image/png;image/webp;text/html;text/xml;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/chromium;
 Actions=new-window;new-private-window;
 
 
@@ -220,3 +219,4 @@ Name[vi]=Cửa Sổ InPrivate Mới
 Name[zh_CN]=新建 InPrivate 窗口
 Name[zh_TW]=新 InPrivate 視窗
 Exec=/usr/bin/microsoft-edge-stable --inprivate --ozone-platform-hint=auto --enable-features=WaylandWindowDecorations
+MimeType=x-scheme-handler/webcal;application/pdf;application/rdf+xml;application/rss+xml;application/xhtml+xml;application/xhtml_xml;application/xml;image/gif;image/jpeg;image/png;image/webp;text/html;text/xml;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/chromium;

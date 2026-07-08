@@ -3,3 +3,4 @@ if [[ -d "$HOME/.cargo/bin" ]]; then
 fi
 
 export PATH=$HOME/.local/bin:$PATH
+export PATH=$HOME/.local/share/pnpm/bin:$PATH
