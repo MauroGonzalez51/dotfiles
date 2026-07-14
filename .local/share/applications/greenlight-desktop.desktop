@@ -1,9 +1,0 @@
-[Desktop Entry]
-Name=Greenlight
-Exec=/opt/Greenlight/greenlight-desktop --ozone-platform=x11 %U
-Terminal=false
-Type=Application
-Icon=greenlight-desktop
-StartupWMClass=Greenlight
-Comment=Greenlight is a streaming application for Xbox and xCloud
-Categories=Game;
