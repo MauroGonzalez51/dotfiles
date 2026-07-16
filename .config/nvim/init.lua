@@ -1,10 +1,8 @@
+-- disable native nvim file explorer
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
+-- enable 24-bit RGB color in the TUI
 vim.opt.termguicolors = true
-
--- Leader keys
-vim.g.mapleader = " "
-vim.g.maplocalleader = "\\"
 
 require('config.lazy')
