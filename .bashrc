@@ -21,7 +21,8 @@ source ~/.bash/path.sh
 
 if command -v fastfetch >/dev/null 2>&1 \
     && [ -z "$TMUX" ] \
-    && [ -z "$HYPRLAND_INSTANCE_SIGNATURE" ]; then
+    && [ -z "$HYPRLAND_INSTANCE_SIGNATURE" ] \
+    && [ -z "$NVIM" ]; then
     fastfetch --config ~/.config/fastfetch/config.jsonc
 fi
 
