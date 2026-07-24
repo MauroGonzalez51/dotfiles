@@ -1,1 +1,6 @@
 ^\.vscode$
+^\.git$
+^\.gitignore$
+^\.prettierrc$
+^README.md$
+
