@@ -18,7 +18,7 @@ return {
         transparent.clear_prefix("lualine")
         transparent.clear_prefix("snacks")
         transparent.clear_prefix("BufferLine")
-        transparent.clear_prefix('WhichKey')
+        transparent.clear_prefix("WhichKey")
 
         local function clear_bg(name)
             local hl = vim.api.nvim_get_hl(0, { name = name })
