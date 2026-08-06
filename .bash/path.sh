@@ -7,5 +7,9 @@ if [[ -d "/usr/lib/jvm/default/" ]]; then
     export PATH="$PATH:/usr/lib/jvm/default/bin"
 fi
 
+if [[ -d "$HOME/.pulumi/bin" ]]; then
+    export PATH="$PATH:$HOME/.pulumi/bin"
+fi
+
 export PATH=$HOME/.local/bin:$PATH
 export PATH=$HOME/.local/share/pnpm/bin:$PATH

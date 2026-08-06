@@ -1,0 +1,6 @@
+TERMINAL = "kitty"
+MOD = "SUPER"
+BROWSER = "microsoft-edge-stable"
+BLUETOOTH_MANAGER = "kitty -e bluetui"
+POWER_MENU = "~/.local/bin/power-menu"
+SCREENSHOT = "~/.local/bin/hyprshot"
