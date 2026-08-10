@@ -10,3 +10,18 @@ sudo() {
 
     command sudo "$@"
 }
+
+code() {
+    if type -P code &>/dev/null; then
+        command code "$@"
+        return $?
+    fi
+
+    if type -P code-insiders &>/dev/null; then
+        command code-insiders "$@"
+        return $?
+    fi
+
+    echo "bash: code: command not found" >&2
+    return 127
+}

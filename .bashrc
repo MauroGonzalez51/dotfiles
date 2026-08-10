@@ -1,7 +1,7 @@
-# Kiro CLI pre block. Keep at the top of this file.
-[[ -f "${HOME}/.local/share/kiro-cli/shell/bashrc.pre.bash" ]] && builtin source "${HOME}/.local/share/kiro-cli/shell/bashrc.pre.bash"
+if [[ -f "${HOME}/.local/share/kiro-cli/shell/bashrc.pre.bash" ]]; then
+    source "${HOME}/.local/share/kiro-cli/shell/bashrc.pre.bash"
+fi
 
-# If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
 source ~/.bash/apps/ble.manual.sh
@@ -33,5 +33,6 @@ source ~/.bash/apps/zoxide.manual.sh
 
 [[ ${BLE_VERSION-} ]] && ble-attach
 
-# Kiro CLI post block. Keep at the bottom of this file.
-[[ -f "${HOME}/.local/share/kiro-cli/shell/bashrc.post.bash" ]] && builtin source "${HOME}/.local/share/kiro-cli/shell/bashrc.post.bash"
+if [[ -f "${HOME}/.local/share/kiro-cli/shell/bashrc.post.bash" ]]; then
+    source "${HOME}/.local/share/kiro-cli/shell/bashrc.post.bash"
+fi
