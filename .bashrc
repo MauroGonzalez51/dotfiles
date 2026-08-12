@@ -1,7 +1,3 @@
-if [[ -f "${HOME}/.local/share/kiro-cli/shell/bashrc.pre.bash" ]]; then
-    source "${HOME}/.local/share/kiro-cli/shell/bashrc.pre.bash"
-fi
-
 [[ $- != *i* ]] && return
 
 source ~/.bash/apps/ble.manual.sh
@@ -32,7 +28,3 @@ fi
 source ~/.bash/apps/zoxide.manual.sh
 
 [[ ${BLE_VERSION-} ]] && ble-attach
-
-if [[ -f "${HOME}/.local/share/kiro-cli/shell/bashrc.post.bash" ]]; then
-    source "${HOME}/.local/share/kiro-cli/shell/bashrc.post.bash"
-fi
