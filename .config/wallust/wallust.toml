@@ -44,8 +44,8 @@ check_contrast = true
 #no_hooks = true
 
 [templates]
-hypr.template = 'colors-hypr.conf'
-hypr.target = '~/.config/hypr/themes/wallust.conf'
+hypr.template = 'colors-hypr.lua'
+hypr.target = '~/.config/hypr/conf/themes.lua'
 
 fastfetch.template = 'colors-fastfetch.jsonc'
 fastfetch.target = '~/.config/fastfetch/config.jsonc'
