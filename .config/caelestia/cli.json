@@ -1,0 +1,8 @@
+{
+    "toggles": {
+        "communication": {
+            "discord": { "enable": false },
+            "whatsapp": { "enable": false }
+        }
+    }
+}
