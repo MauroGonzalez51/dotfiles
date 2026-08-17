@@ -1,4 +1,5 @@
 return {
 	browser = "microsoft-edge-stable",
-	terminal = "kitty"
+	terminal = "kitty",
+	fileExplorer = "nautilus --new-window",
 }

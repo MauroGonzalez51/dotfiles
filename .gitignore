@@ -3,4 +3,6 @@
 .config/kitty/colors.conf
 .config/quickshell/.qmlls.ini
 .config/hypr/scheme/
+.config/caelestia/monitors/*
+!.config/caelestia/monitors/.gitkeep
 .venv
