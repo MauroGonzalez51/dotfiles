@@ -19,4 +19,8 @@ return {
 	kbMusicWs = "SUPER + 3",
 	kbSystemMonitorWs = "SUPER + 4",
 	kbTodoWs = "SUPER + 5",
+
+	-- Launcher off bare SUPER tap, onto SUPER + Space; terminal onto SUPER + Return
+	kbLauncher = "SUPER + Space",
+	kbTerminal = "SUPER + Return",
 }
