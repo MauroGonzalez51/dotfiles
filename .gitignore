@@ -2,7 +2,8 @@
 .config/hypr/themes/wallust.conf
 .config/kitty/colors.conf
 .config/quickshell/.qmlls.ini
-.config/hypr/scheme/
+.config/hypr/scheme/current.lua
+.config/hypr/scheme/current.conf
 .config/caelestia/monitors/*
 !.config/caelestia/monitors/.gitkeep
 .venv
