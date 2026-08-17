@@ -80,7 +80,6 @@ use16cols = true
 #   glava    = { template = 'glava/',   target = '~/.config/glava/', max_depth = 1 }
 #   # pywal compatibility
 #   wal      = { template = 'wal/',     target = '~/.cache/wal/', pywal = true }
-hypr = { template = "hypr/colors.lua", target = "~/.config/hypr/themes/colors.lua" }
 
 [hooks]
 hypr-reload = "hyprctl reload"
