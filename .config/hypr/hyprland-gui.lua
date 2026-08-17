@@ -13,7 +13,7 @@ hl.config({
         resize_on_border = true,
     },
     input = {
-        natural_scroll = true,
+        natural_scroll = false,
         sensitivity = -0.3,
     },
 })
