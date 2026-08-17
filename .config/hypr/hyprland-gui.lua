@@ -10,5 +10,10 @@ hl.config({
         border_size = 3,
         gaps_in = 2,
         gaps_out = 10,
+        resize_on_border = true,
+    },
+    input = {
+        natural_scroll = true,
+        sensitivity = -0.3,
     },
 })
