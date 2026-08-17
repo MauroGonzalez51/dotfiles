@@ -7,6 +7,61 @@
     "background": {
         "wallpaperEnabled": true
     },
+    "bar": {
+        "activeWindow": {
+            "compact": true,
+            "inverted": true
+        },
+        "clock": {
+            "background": true,
+            "showDate": true
+        },
+        "statusIcons": [
+            {
+                "enabled": false,
+                "id": "lockStatus"
+            },
+            {
+                "enabled": false,
+                "id": "audio"
+            },
+            {
+                "enabled": false,
+                "id": "microphone"
+            },
+            {
+                "enabled": false,
+                "id": "kbLayout"
+            },
+            {
+                "enabled": true,
+                "id": "network"
+            },
+            {
+                "enabled": true,
+                "id": "bluetooth"
+            },
+            {
+                "enabled": true,
+                "id": "battery"
+            }
+        ],
+        "tray": {
+            "background": true,
+            "compact": true,
+            "recolour": true
+        },
+        "workspaces": {
+            "activeIndicator": true,
+            "activeTrail": false,
+            "occupiedBg": false,
+            "showWindows": false,
+            "showWindowsOnSpecialWorkspaces": false,
+            "shown": 6
+        }
+    },
+    "dashboard": {
+    },
     "general": {
         "apps": {
             "explorer": [
@@ -17,5 +72,8 @@
                 "kitty"
             ]
         }
+    },
+    "services": {
+        "useFahrenheit": false
     }
 }
