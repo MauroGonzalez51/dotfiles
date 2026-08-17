@@ -1,0 +1,21 @@
+{
+    "appearance": {
+        "transparency": {
+            "enabled": true
+        }
+    },
+    "background": {
+        "wallpaperEnabled": true
+    },
+    "general": {
+        "apps": {
+            "explorer": [
+                "nautilus",
+                "--new-window"
+            ],
+            "terminal": [
+                "kitty"
+            ]
+        }
+    }
+}
