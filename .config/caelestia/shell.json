@@ -16,6 +16,7 @@
             "background": true,
             "showDate": true
         },
+        "persistent": true,
         "statusIcons": [
             {
                 "enabled": false,
@@ -71,7 +72,14 @@
             ]
         }
     },
+    "launcher": {
+        "enableDangerousActions": true,
+        "showOnHover": false,
+        "vimKeybinds": true
+    },
     "services": {
+        "audioIncrement": 0.05,
+        "brightnessIncrement": 0.05,
         "useFahrenheit": false
     }
 }

@@ -3,8 +3,18 @@
 -- Settings
 hl.config({
     decoration = {
+        blur = {
+            enabled = true,
+            passes = 2,
+            size = 4,
+        },
         inactive_opacity = 0.8,
         rounding = 8,
+        shadow = {
+            enabled = true,
+            range = 25,
+            render_power = 3,
+        },
     },
     general = {
         border_size = 3,
