@@ -77,9 +77,20 @@
         "showOnHover": false,
         "vimKeybinds": true
     },
+    "notifs": {
+        "expire": true,
+        "fullscreen": "on",
+        "openExpanded": true
+    },
     "services": {
         "audioIncrement": 0.05,
         "brightnessIncrement": 0.05,
         "useFahrenheit": false
+    },
+    "utilities": {
+        "toasts": {
+            "fullscreen": "all",
+            "nowPlaying": false
+        }
     }
 }
