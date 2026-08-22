@@ -70,6 +70,28 @@
             "terminal": [
                 "kitty"
             ]
+        },
+        "idle": {
+            "timeouts": [
+                {
+                    "idleAction": "lock",
+                    "inhibitWhenAudio": false,
+                    "inhibitWhenCharging": false,
+                    "respectInhibitors": true,
+                    "timeout": 500
+                },
+                {
+                    "idleAction": "dpms off",
+                    "returnAction": "dpms on",
+                    "timeout": 1000
+                },
+                {
+                    "idleAction": [
+                        "suspendThenHibernate"
+                    ],
+                    "timeout": 600
+                }
+            ]
         }
     },
     "launcher": {
