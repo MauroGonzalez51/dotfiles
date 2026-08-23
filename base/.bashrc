@@ -3,7 +3,13 @@
 source ~/.bash/apps/ble.manual.sh
 
 for app in ~/.bash/apps/*.app.sh; do
-    [ -f "$app" ] && source "$app"
+    name="$(basename "$app" .app.sh)"
+    [ -f "$(dirname "$app")/$name.override.sh" ] && continue
+    source "$app"
+done
+
+for override in ~/.bash/apps/*.override.sh; do
+    [ -f "$override" ] && source "$override"
 done
 
 if [ -f /usr/share/bash-completion/bash_completion ]; then
