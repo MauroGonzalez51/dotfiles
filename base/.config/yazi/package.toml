@@ -1,12 +1,12 @@
 [[plugin.deps]]
 use = "yazi-rs/plugins:full-border"
-rev = "4c63ed3"
-hash = "7b625412411be411153886894d9acaf"
+rev = "896fa5a"
+hash = "17ebde15c4349f90aedbc45984b98db2"
 
 [[flavor.deps]]
 use = "yazi-rs/flavors:catppuccin-frappe"
-rev = "4770a34"
-hash = "1844f850b0c5d1af511c84399c95e3d7"
+rev = "1183892"
+hash = "ab7c71d442d3a9e16331ea0d95ab36a8"
 
 [[flavor.deps]]
 use = "Miuzarte/synthwave84"
@@ -15,5 +15,5 @@ hash = "598126216cc2ab55f98955788f0eb3f3"
 
 [[flavor.deps]]
 use = "kmlupreti/ayu-dark"
-rev = "00804da"
-hash = "d2ce8358c59ea6e8552091075b3a191c"
+rev = "7217c4c"
+hash = "cb79f39e6d0276c90c53ecc18b58953c"
