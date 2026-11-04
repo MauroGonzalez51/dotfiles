@@ -25,3 +25,8 @@ code() {
     echo "bash: code: command not found" >&2
     return 127
 }
+
+if command -v assume >/dev/null 2>&1; then
+    alias assume=". assume"
+fi
+
