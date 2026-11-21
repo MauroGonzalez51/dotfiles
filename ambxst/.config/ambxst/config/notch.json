@@ -1,0 +1,10 @@
+{
+  "theme": "default",
+  "position": "top",
+  "hoverRegionHeight": 2,
+  "hoverToReveal": true,
+  "keepHidden": false,
+  "noMediaDisplay": "userHost",
+  "customText": "Ambxst",
+  "disableHoverExpansion": false
+}

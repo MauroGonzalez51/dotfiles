@@ -1,12 +1,12 @@
 [[plugin.deps]]
 use = "yazi-rs/plugins:full-border"
-rev = "896fa5a"
+rev = "1ef5fe0"
 hash = "17ebde15c4349f90aedbc45984b98db2"
 
 [[flavor.deps]]
 use = "yazi-rs/flavors:catppuccin-frappe"
-rev = "1183892"
-hash = "ab7c71d442d3a9e16331ea0d95ab36a8"
+rev = "38c08d8"
+hash = "7d6e604c6f458f57e5c27d19163203c5"
 
 [[flavor.deps]]
 use = "Miuzarte/synthwave84"
