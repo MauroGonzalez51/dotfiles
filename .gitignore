@@ -7,3 +7,5 @@
 !**/.config/caelestia/monitors/.gitkeep
 **/.config/tmux/plugins/
 .venv
+**/.config/ambxst/presets/*
+!**/.config/ambxst/presets/.gitkeep

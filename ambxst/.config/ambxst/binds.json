@@ -6,9 +6,8 @@
                 },
                 "id": "ambxst.assistant"
             },
-            "key": "A",
+            "key": "",
             "modifiers": [
-                "SUPER"
             ]
         },
         "clipboard": {
@@ -191,7 +190,7 @@
                     },
                     "id": "ambxst.tools"
                 },
-                "key": "S",
+                "key": "M",
                 "modifiers": [
                     "SUPER"
                 ]
@@ -2549,6 +2548,50 @@
                 }
             ],
             "name": "Open Terminal"
+        },
+        {
+            "actions": [
+                {
+                    "args": {
+                        "index": "e-1"
+                    },
+                    "id": "workspace.switch",
+                    "layouts": [
+                    ]
+                }
+            ],
+            "enabled": true,
+            "keys": [
+                {
+                    "key": "A",
+                    "modifiers": [
+                        "SUPER"
+                    ]
+                }
+            ],
+            "name": "Switch Workspace Left"
+        },
+         {
+            "actions": [
+                {
+                    "args": {
+                        "index": "e+1"
+                    },
+                    "id": "workspace.switch",
+                    "layouts": [
+                    ]
+                }
+            ],
+            "enabled": true,
+            "keys": [
+                {
+                    "key": "S",
+                    "modifiers": [
+                        "SUPER"
+                    ]
+                }
+            ],
+            "name": "Switch Workspace Right"
         }
     ],
     "defaultAmbxstBinds": {
