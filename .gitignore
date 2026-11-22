@@ -9,3 +9,5 @@
 .venv
 **/.config/ambxst/presets/*
 !**/.config/ambxst/presets/.gitkeep
+**/.local/share/ambxst/hyprland.lua
+**/.config/ambxst/config/theme.json
