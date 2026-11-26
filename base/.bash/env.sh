@@ -7,3 +7,8 @@ export PUPPETEER_SKIP_DOWNLOAD=true
 if [ -x /usr/bin/chromium ]; then
     export PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
 fi
+
+# untracked files (see .gitignore); every file in the dir is loaded
+for secret in "$HOME"/.bash/secrets/*; do
+    [ -f "$secret" ] && source "$secret"
+done

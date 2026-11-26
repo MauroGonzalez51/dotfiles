@@ -11,3 +11,5 @@
 !**/.config/ambxst/presets/.gitkeep
 **/.local/share/ambxst/hyprland.lua
 **/.config/ambxst/config/theme.json
+base/.bash/secrets/*
+!base/.bash/secrets/.gitkeep

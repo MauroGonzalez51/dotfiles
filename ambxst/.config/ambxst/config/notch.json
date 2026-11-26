@@ -1,10 +1,10 @@
 {
-    "customText": "Ambxst",
-    "disableHoverExpansion": true,
-    "hoverRegionHeight": 2,
-    "hoverToReveal": true,
-    "keepHidden": false,
-    "noMediaDisplay": "userHost",
-    "position": "top",
-    "theme": "default"
+  "theme": "default",
+  "position": "top",
+  "hoverRegionHeight": 2,
+  "hoverToReveal": true,
+  "keepHidden": false,
+  "noMediaDisplay": "userHost",
+  "customText": "Ambxst",
+  "disableHoverExpansion": true
 }
